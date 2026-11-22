@@ -34,7 +34,8 @@ def fabriquer(t: pathlib.Path):
     sh('convert', '-size', '900x1200', 'xc:', '+noise', 'Random', str(t / 'bruit.png'))
     sh('img2pdf', str(t / 'bruit.png'), str(t / 'bruit.png'), '-o', str(t / 'lourd.pdf'))
     for nom in ['LEGOFF_avis-imposition.pdf', 'LEGOFF_avis-imposition.pdf.pdf', 'Le Goff avis.pdf',
-                'legoff_avis-imposition.pdf', 'LEGOFF_avis-imposé.pdf', 'scan_20261124.pdf']:
+                'legoff_avis-imposition.pdf', 'LEGOFF_avis-imposé.pdf', 'scan_20261124.pdf',
+                'DORVAL_avis-imposition.pdf', 'LEGOFF_avis-imposition.PDF', 'LEGOFF_Avis-imposition.pdf']:
         shutil.copy(t / 'avis.pdf', t / nom)
 
 
@@ -58,6 +59,9 @@ CAS_PC = [
     ('LEGOFF_avis-imposé.pdf', 'Nom de fichier non conforme : il contient des accents'),
     ('LEGOFF_avis-imposition.pdf.pdf', 'Nom de fichier non conforme : extension en double'),
     ('legoff_avis-imposition.pdf', 'Nom de fichier non conforme : le nom de famille doit être en MAJUSCULES'),
+    ('DORVAL_avis-imposition.pdf', 'Nom de fichier non conforme.'),
+    ('LEGOFF_avis-imposition.PDF', 'Nom de fichier non conforme.'),
+    ('LEGOFF_Avis-imposition.pdf', 'Nom de fichier non conforme.'),
     ('lourd.pdf', 'Fichier trop volumineux'),
     ('LEGOFF_avis-imposition.pdf', 'Fichier conforme'),
 ]

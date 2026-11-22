@@ -250,7 +250,11 @@ function verifierNom(nom) {
   if (/\s/.test(nom)) return "Nom de fichier non conforme : il contient des espaces.";
   if (/[^\x00-\x7F]/.test(nom)) return "Nom de fichier non conforme : il contient des accents ou des caractères spéciaux.";
   if (nom === ATTENDU) return null;
-  if (nom.toLowerCase() === ATTENDU.toLowerCase()) return "Nom de fichier non conforme : le nom de famille doit être en MAJUSCULES.";
+  // Message « MAJUSCULES » seulement si c'est bien le nom de famille qui est en minuscules
+  // (sinon « .PDF » ou « Avis » déclencheraient un message faux).
+  const suite = ATTENDU.slice(ATTENDU.indexOf('_'));
+  if (nom.toLowerCase() === ATTENDU.toLowerCase() && nom.endsWith(suite))
+    return "Nom de fichier non conforme : le nom de famille doit être en MAJUSCULES.";
   return "Nom de fichier non conforme.";
 }
 

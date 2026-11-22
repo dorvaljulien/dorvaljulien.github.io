@@ -19,6 +19,15 @@
   a.bouton { display: inline-block; margin-top: 10px; padding: 9px 14px; background: #1f3a5f; color: #fff; text-decoration: none; border-radius: 6px; }
   ul { padding-left: 20px; line-height: 1.6; }
   .note { font-size: 13px; color: #666; margin-top: 26px; }
+  /* Liens professeur : petite flèche terne dans le coin, qui déroule le panneau */
+  .prof { position: fixed; right: 8px; bottom: 6px; font-size: 14px; }
+  .prof summary { list-style: none; cursor: pointer; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+  .prof summary::-webkit-details-marker { display: none; }
+  .prof summary svg { transition: transform .15s; }
+  .prof[open] summary svg { transform: rotate(180deg); }
+  .prof .panneau { position: absolute; right: 0; bottom: 22px; background: #fff; border: 1px solid #ddd; border-radius: 8px;
+                   padding: 6px 16px; box-shadow: 0 4px 14px rgba(0,0,0,.12); white-space: nowrap; }
+  .prof ul { margin: 6px 0; }
   @media (max-width: 760px) { .grille { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -39,19 +48,21 @@
       <p>Ouvrez le site du Fonds Habitat Seniors dans Edge :</p>
       <div class="url">dorvaljulien.github.io/depot-justificatifs/ordinateur.html</div>
       <a class="bouton" href="ordinateur.html">Ouvrir le site</a>
-
-      <h2 style="margin-top:26px">Pour le professeur</h2>
-      <ul>
-        <li><a href="telephone.html">Simulateur téléphone</a> (Armor Retraite)</li>
-        <li><a href="ordinateur.html">Simulateur ordinateur</a> (Fonds Habitat Seniors)</li>
-        <li><a href="pochette_LeGoff_SPECIMEN.pdf">Pochette de faux documents</a> (4 pages A4, une par binôme)</li>
-        <li><a href="qr-telephone.png">QR code en image</a> (pour un diaporama)</li>
-      </ul>
     </div>
   </div>
 
   <p class="note">Sites et documents fictifs, conçus pour un exercice pédagogique. Les fichiers déposés ne quittent jamais
   l'appareil : la vérification se fait dans le navigateur, rien n'est envoyé ni enregistré.</p>
 </main>
+
+<details class="prof">
+  <summary title="Ressources"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 6.5 5 3.5l3 3" stroke="#cfcfca" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+  <div class="panneau"><ul>
+    <li><a href="telephone.html">Simulateur téléphone</a> (Armor Retraite)</li>
+    <li><a href="ordinateur.html">Simulateur ordinateur</a> (Fonds Habitat Seniors)</li>
+    <li><a href="pochette_LeGoff_SPECIMEN.pdf">Pochette de faux documents</a> (4 pages A4, une par binôme)</li>
+    <li><a href="qr-telephone.png">QR code en image</a> (pour un diaporama)</li>
+  </ul></div>
+</details>
 </body>
 </html>

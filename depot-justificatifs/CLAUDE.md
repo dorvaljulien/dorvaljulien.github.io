@@ -40,7 +40,7 @@ Depuis le dossier `depot-justificatifs` :
 
 ```
 python3 outils/build.py        # après toute modification de src/
-python3 outils/test_sims.py    # 21 cas, doit finir sur « 0 échec(s) » ; CHROME=... pour le navigateur
+python3 outils/test_sims.py    # 24 cas, doit finir sur « 0 échec(s) » ; CHROME=... pour le navigateur
 python3 outils/pochette.py     # si la pochette change
 python3 outils/qr.py           # si l'adresse du site change
 ```

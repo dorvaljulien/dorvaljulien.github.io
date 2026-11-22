@@ -96,7 +96,7 @@ python3 outils/build.py
 python3 outils/test_sims.py
 ```
 
-Les tests fabriquent leurs propres fichiers d'essai à partir de la pochette : PDF de 1 à 3 pages, PDF compressé, JPG, faux HEIC, PDF trop lourd, noms piégés. Ils vérifient chaque message attendu (21 cas). Dépendances : Python 3, `playwright`, `reportlab`, `qrcode`, ainsi que `qpdf`, `img2pdf`, ImageMagick et poppler-utils.
+Les tests fabriquent leurs propres fichiers d'essai à partir de la pochette : PDF de 1 à 3 pages, PDF compressé, JPG, faux HEIC, PDF trop lourd, noms piégés. Ils vérifient chaque message attendu (24 cas). Dépendances : Python 3, `playwright`, `reportlab`, `qrcode`, ainsi que `qpdf`, `img2pdf`, ImageMagick et poppler-utils.
 
 ## Mise en ligne
 
