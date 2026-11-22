@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Fonds Habitat Seniors – Dépôt de pièces</title>
+<style>
+  :root { --marine: #1f3a5f; --marine-clair: #2e5687; --fond: #eef1f5; --encre: #1c2430; --gris: #5b6675;
+          --ligne: #cfd6df; --ok: #1e7a46; --ko: #b3261e; --jaune: #f2c14e; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: var(--fond); color: var(--encre); font-size: 15px; }
+  .haut { background: #fff; border-bottom: 4px solid var(--jaune); }
+  .haut .in { max-width: 980px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
+  .logo { width: 46px; height: 46px; background: var(--marine); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .marque { font-size: 20px; font-weight: 700; color: var(--marine); }
+  .sous { font-size: 12px; color: var(--gris); }
+  .compte { margin-left: auto; font-size: 13px; color: var(--gris); text-align: right; }
+  nav { background: var(--marine); }
+  nav .in { max-width: 980px; margin: 0 auto; padding: 0 24px; display: flex; gap: 26px; font-size: 14px; }
+  nav span { color: #dbe4f0; padding: 10px 0; }
+  nav span.actif { color: #fff; border-bottom: 3px solid var(--jaune); font-weight: 600; }
+  .page { max-width: 980px; margin: 0 auto; padding: 22px 24px 40px; display: grid; grid-template-columns: 220px 1fr; gap: 26px; }
+  .etapes { background: #fff; border: 1px solid var(--ligne); padding: 14px; font-size: 13px; align-self: start; }
+  .etapes div { padding: 7px 0 7px 26px; position: relative; color: var(--gris); }
+  .etapes div::before { content: attr(data-n); position: absolute; left: 0; top: 6px; width: 18px; height: 18px; border-radius: 50%;
+                        background: var(--ligne); color: #fff; font-size: 11px; text-align: center; line-height: 18px; }
+  .etapes .fait::before { background: var(--ok); content: "✓"; }
+  .etapes .cours { color: var(--encre); font-weight: 600; }
+  .etapes .cours::before { background: var(--marine); }
+  .carte { background: #fff; border: 1px solid var(--ligne); padding: 22px 26px; }
+  h1 { font-size: 22px; margin: 0 0 4px; color: var(--marine); }
+  .ref { font-size: 13px; color: var(--gris); margin-bottom: 18px; }
+  .regles { border: 1px solid var(--ligne); background: #f7f9fb; padding: 12px 16px; font-size: 14px; margin-bottom: 18px; }
+  .regles summary { cursor: pointer; font-weight: 600; color: var(--marine-clair); }
+  .regles ul { margin: 10px 0 2px; padding-left: 20px; line-height: 1.6; }
+  code { background: #e6ebf1; padding: 1px 5px; border-radius: 3px; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; background: #f2f4f7; padding: 9px 10px; border-bottom: 1px solid var(--ligne); font-weight: 600; }
+  td { padding: 12px 10px; border-bottom: 1px solid var(--ligne); vertical-align: top; }
+  .btn { display: inline-block; padding: 8px 14px; border: 1px solid var(--marine-clair); color: var(--marine-clair); background: #fff;
+         font-size: 14px; cursor: pointer; border-radius: 3px; }
+  .btn input { display: none; }
+  .msg { margin-top: 8px; font-size: 13.5px; display: none; padding: 7px 9px; border-left: 3px solid; }
+  .msg.ko { display: block; color: var(--ko); background: #fdf0ef; border-color: var(--ko); }
+  .msg.ok { display: block; color: var(--ok); background: #eaf5ee; border-color: var(--ok); }
+  .msg .fic { color: var(--encre); font-family: Consolas, monospace; font-size: 13px; word-break: break-all; }
+  .actions { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
+  .principal { background: var(--marine); color: #fff; border: 0; padding: 11px 22px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 3px; }
+  .principal:hover { background: var(--marine-clair); }
+  .secondaire { color: var(--gris); font-size: 14px; }
+  .erreur-globale { color: var(--ko); margin-top: 12px; display: none; font-size: 14px; }
+  .succes { display: none; }
+  .succes .titre { display: flex; align-items: center; gap: 12px; color: var(--ok); }
+  .succes .titre h1 { color: var(--ok); }
+  .recap { margin: 16px 0; border: 1px solid var(--ligne); padding: 12px 16px; background: #f7f9fb; font-size: 14px; line-height: 1.7; }
+  .recap a { color: var(--marine-clair); font-weight: 600; }
+  .lien-bas { background: none; border: 0; color: var(--marine-clair); text-decoration: underline; cursor: pointer; font-size: 14px; padding: 0; }
+  footer { text-align: center; font-size: 12px; color: var(--gris); padding: 10px 20px 30px; }
+  .mobile { display: none; max-width: 520px; margin: 40px auto; background: #fff; border: 1px solid var(--ligne); padding: 26px; text-align: center; }
+  .mobile h1 { font-size: 19px; }
+  body.sur-mobile .page { display: none; }
+  body.sur-mobile .mobile { display: block; }
+</style>
+</head>
+<body>
+<div class="haut"><div class="in">
+  <div class="logo"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M4 15 15 5l11 10" stroke="#f2c14e" stroke-width="3" fill="none" stroke-linejoin="round"/><rect x="8" y="14" width="14" height="11" fill="#fff"/><rect x="13" y="18" width="4" height="7" fill="#1f3a5f"/></svg></div>
+  <div><div class="marque">Fonds Habitat Seniors</div><div class="sous">Aides au logement des personnes âgées</div></div>
+  <div class="compte">Mme Marie LE GOFF<br>Dossier n° FHS-29-04417</div>
+</div></div>
+<nav><div class="in"><span>Accueil</span><span class="actif">Mes demandes</span><span>Mes documents</span><span>Contact</span></div></nav>
+
+<div class="mobile">
+  <h1>Cette démarche n'est disponible que sur ordinateur.</h1>
+  <p>Merci de vous connecter depuis un ordinateur pour déposer vos pièces justificatives.</p>
+</div>
+
+<div class="page">
+  <div class="etapes">
+    <div class="fait" data-n="1">Situation du foyer</div>
+    <div class="fait" data-n="2">Logement</div>
+    <div class="fait" data-n="3">Ressources</div>
+    <div class="cours" data-n="4">Pièces justificatives</div>
+    <div data-n="5">Confirmation</div>
+  </div>
+
+  <div>
+    <div class="carte" id="formulaire">
+      <h1>Pièces justificatives</h1>
+      <div class="ref">Demande d'aide au logement – étape 4 sur 5</div>
+
+      <details class="regles" id="regles">
+        <summary>Conditions de dépôt des fichiers (à lire avant de déposer)</summary>
+        <ul>
+          <li>Format accepté : <strong>PDF uniquement</strong>.</li>
+          <li>Taille maximale : <strong>2 Mo</strong>.</li>
+          <li>Le document doit comporter <strong>toutes ses pages</strong> dans un seul fichier.</li>
+          <li>Le fichier doit être nommé ainsi : <code>NOM_avis-imposition.pdf</code><br>
+              nom de famille en MAJUSCULES, sans espace ni accent. Exemple : <code>DUPONT_avis-imposition.pdf</code></li>
+        </ul>
+      </details>
+
+      <table>
+        <thead><tr><th style="width:38%">Pièce demandée</th><th>Fichier</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Avis d'imposition</strong> <span style="color:var(--ko)">*</span><br><span style="color:var(--gris);font-size:13px">Dernier avis d'impôt sur le revenu du foyer</span></td>
+            <td>
+              <label class="btn"><input type="file" id="fichier">Parcourir…</label>
+              <div class="msg" id="msg"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="actions">
+        <span class="secondaire">‹ Étape précédente</span>
+        <button class="principal" id="valider">Valider et transmettre</button>
+      </div>
+      <div class="erreur-globale" id="erreurGlobale">Veuillez déposer un fichier conforme avant de valider.</div>
+    </div>
+
+    <div class="carte succes" id="succes">
+      <div class="titre">
+        <svg width="42" height="42" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1e7a46"/><path d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h1>Pièce transmise</h1>
+      </div>
+      <p>Votre avis d'imposition a bien été ajouté au dossier n° FHS-29-04417 le <span id="date"></span>.</p>
+      <div class="recap" id="recap"></div>
+      <p style="font-size:14px">Votre dossier est complet. Il sera étudié par nos services.</p>
+      <button class="lien-bas" id="recommencer">Recommencer l'exercice</button>
+    </div>
+  </div>
+</div>
+
+<footer>Site fictif – exercice pédagogique. Aucun fichier n'est envoyé : la vérification se fait sur cet ordinateur.</footer>
+
+<script>
+/* Noyau commun des simulateurs de dépôt — tout se passe dans le navigateur, rien n'est envoyé. */
+const Depot = (() => {
+  function latin1(bytes) {
+    let s = '';
+    const CH = 0x8000;
+    for (let i = 0; i < bytes.length; i += CH) {
+      s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+    }
+    return s;
+  }
+
+  // Format réel d'après le contenu (pas d'après l'extension)
+  function detecterFormat(b) {
+    const head = latin1(b.subarray(0, 1024));
+    if (head.indexOf('%PDF-') !== -1) return 'pdf';
+    if (b[0] === 0xFF && b[1] === 0xD8) return 'jpg';
+    if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4E && b[3] === 0x47) return 'png';
+    const ftyp = latin1(b.subarray(4, 12));
+    if (/^ftyp(heic|heix|hevc|mif1|msf1|heim|heis)/.test(ftyp)) return 'heic';
+    if (/^ftyp/.test(ftyp)) return 'video';
+    if (b[0] === 0x50 && b[1] === 0x4B) return 'office';
+    if (latin1(b.subarray(0, 4)) === 'RIFF') return 'webp';
+    return 'inconnu';
+  }
+
+  async function inflate(bytes) {
+    if (typeof DecompressionStream === 'undefined') return null;
+    try {
+      const ds = new DecompressionStream('deflate');
+      const out = await new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer();
+      return latin1(new Uint8Array(out));
+    } catch (e) { return null; }
+  }
+
+  function compterDans(txt) {
+    // 1) /Count de l'arbre des pages (le plus grand = la racine)
+    let max = 0;
+    const re = /\/Type\s*\/Pages(?![A-Za-z])/g;
+    let m;
+    while ((m = re.exec(txt))) {
+      const fen = txt.slice(Math.max(0, m.index - 400), m.index + 400);
+      const c = fen.match(/\/Count\s+(\d+)/g);
+      if (c) c.forEach(x => { const n = parseInt(x.replace(/\D/g, ''), 10); if (n > max && n < 10000) max = n; });
+    }
+    if (max > 0) return max;
+    // 2) sinon, on compte les objets /Type /Page
+    const p = txt.match(/\/Type\s*\/Page(?![A-Za-z])/g);
+    return p ? p.length : 0;
+  }
+
+  // Nombre de pages d'un PDF, ou null si indéterminable
+  async function compterPages(b) {
+    const txt = latin1(b);
+    let n = compterDans(txt);
+    if (n > 0) return n;
+    // PDF à flux d'objets compressés : on décompresse les /ObjStm
+    const re = /\/Type\s*\/ObjStm/g;
+    let m, total = '';
+    while ((m = re.exec(txt))) {
+      const s = txt.indexOf('stream', m.index);
+      if (s < 0) continue;
+      let start = s + 6;
+      if (txt[start] === '\r') start++;
+      if (txt[start] === '\n') start++;
+      const e = txt.indexOf('endstream', start);
+      if (e < 0) continue;
+      const dec = await inflate(b.subarray(start, e));
+      if (dec) total += dec + '\n';
+    }
+    n = compterDans(total);
+    return n > 0 ? n : null;
+  }
+
+  async function analyser(file) {
+    const b = new Uint8Array(await file.arrayBuffer());
+    const format = detecterFormat(b);
+    const info = { nom: file.name, taille: file.size, format, pages: null, chiffre: false };
+    if (format === 'pdf') {
+      const head = latin1(b.subarray(0, Math.min(b.length, 200000)));
+      info.chiffre = /\/Encrypt\s/.test(latin1(b));
+      info.pages = await compterPages(b);
+      if (!/%%EOF/.test(latin1(b.subarray(Math.max(0, b.length - 2048))))) info.tronque = true;
+    }
+    return info;
+  }
+
+  function mo(octets) {
+    const v = octets / (1024 * 1024);
+    if (v < 0.1) return Math.max(1, Math.round(octets / 1024)) + ' Ko';
+    return v.toFixed(1).replace('.', ',') + ' Mo';
+  }
+
+  function maintenant() {
+    const d = new Date();
+    const p = n => String(n).padStart(2, '0');
+    return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} à ${p(d.getHours())}h${p(d.getMinutes())}`;
+  }
+
+  return { analyser, mo, maintenant };
+})();
+
+const MAX = 2 * 1024 * 1024;
+const ATTENDU = 'LEGOFF_avis-imposition.pdf';
+if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
+  document.body.classList.add('sur-mobile');
+}
+
+function verifierNom(nom) {
+  if (/\.pdf\.pdf$/i.test(nom) || /\.(pdf|jpg|jpeg|png|heic)\.[a-z0-9]{2,4}$/i.test(nom))
+    return "Nom de fichier non conforme : extension en double.";
+  if (/\s/.test(nom)) return "Nom de fichier non conforme : il contient des espaces.";
+  if (/[^\x00-\x7F]/.test(nom)) return "Nom de fichier non conforme : il contient des accents ou des caractères spéciaux.";
+  if (nom === ATTENDU) return null;
+  if (nom.toLowerCase() === ATTENDU.toLowerCase()) return "Nom de fichier non conforme : le nom de famille doit être en MAJUSCULES.";
+  return "Nom de fichier non conforme.";
+}
+
+let valide = null;
+const input = document.getElementById('fichier');
+const msg = document.getElementById('msg');
+input.addEventListener('change', async () => {
+  const f = input.files[0];
+  if (!f) return;
+  msg.className = 'msg ok'; msg.textContent = 'Vérification…';
+  const info = await Depot.analyser(f);
+  let err = null;
+  if (info.format !== 'pdf') err = "Format non accepté.";
+  else if (info.taille > MAX) err = `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`;
+  else if (info.chiffre) err = "Fichier protégé : non accepté.";
+  else if (info.tronque) err = "Fichier illisible.";
+  else if (info.pages !== null && info.pages < 2) err = "Document incomplet : toutes les pages sont demandées.";
+  else err = verifierNom(info.nom);
+  const fic = `<div class="fic">${escapeHtml(info.nom)} (${Depot.mo(info.taille)})</div>`;
+  if (err) {
+    valide = null;
+    msg.className = 'msg ko';
+    msg.innerHTML = `${err} Consultez les <a href="#" id="voirRegles">conditions de dépôt</a>.${fic}`;
+    document.getElementById('voirRegles').onclick = e => { e.preventDefault(); const r = document.getElementById('regles'); r.open = true; r.scrollIntoView({ behavior: 'smooth' }); };
+  } else {
+    valide = { info, file: f };
+    msg.className = 'msg ok';
+    msg.innerHTML = `Fichier conforme.${fic}`;
+  }
+  input.value = '';
+  document.getElementById('erreurGlobale').style.display = 'none';
+});
+
+function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+document.getElementById('valider').onclick = () => {
+  if (!valide) { document.getElementById('erreurGlobale').style.display = 'block'; return; }
+  const url = URL.createObjectURL(valide.file);
+  const pages = valide.info.pages ? `${valide.info.pages} pages` : 'pages non vérifiées';
+  document.getElementById('recap').innerHTML =
+    `<strong>Avis d'imposition</strong><br>${escapeHtml(valide.info.nom)} – ${Depot.mo(valide.info.taille)} – ${pages}<br><a href="${url}" target="_blank" rel="noopener">Voir le document</a>`;
+  document.getElementById('date').textContent = Depot.maintenant();
+  document.getElementById('formulaire').style.display = 'none';
+  document.getElementById('succes').style.display = 'block';
+};
+document.getElementById('recommencer').onclick = () => location.reload();
+</script>
+</body>
+</html>

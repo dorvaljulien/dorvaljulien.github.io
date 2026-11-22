@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Un justificatif qui passe – page professeur</title>
+<style>
+  body { margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; color: #222; background: #f6f6f4; }
+  main { max-width: 1000px; margin: 0 auto; padding: 28px 24px 40px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  .sous { color: #666; margin-bottom: 26px; }
+  .grille { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .bloc { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px 22px; }
+  .bloc h2 { margin: 0 0 8px; font-size: 19px; }
+  .qr { text-align: center; }
+  .qr img { width: 100%; max-width: 340px; }
+  .url { font-family: Consolas, monospace; font-size: 14px; word-break: break-all; color: #444; }
+  a.bouton { display: inline-block; margin-top: 10px; padding: 9px 14px; background: #1f3a5f; color: #fff; text-decoration: none; border-radius: 6px; }
+  ul { padding-left: 20px; line-height: 1.6; }
+  .note { font-size: 13px; color: #666; margin-top: 26px; }
+  @media (max-width: 760px) { .grille { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Un justificatif qui passe</h1>
+  <div class="sous">Séance de démarches en ligne – 1ère Bac Pro SAPAT – page à projeter</div>
+
+  <div class="grille">
+    <div class="bloc qr">
+      <h2>Partie 1 – Sur votre téléphone</h2>
+      <p>Scannez ce code pour ouvrir le site d'Armor Retraite.</p>
+      <img src="qr-telephone.svg" alt="QR code vers le simulateur téléphone">
+      <div class="url">dorvaljulien.github.io/depot-justificatifs/telephone.html</div>
+    </div>
+    <div class="bloc">
+      <h2>Partie 2 – Sur l'ordinateur</h2>
+      <p>Ouvrez le site du Fonds Habitat Seniors dans Edge :</p>
+      <div class="url">dorvaljulien.github.io/depot-justificatifs/ordinateur.html</div>
+      <a class="bouton" href="ordinateur.html">Ouvrir le site</a>
+
+      <h2 style="margin-top:26px">Pour le professeur</h2>
+      <ul>
+        <li><a href="telephone.html">Simulateur téléphone</a> (Armor Retraite)</li>
+        <li><a href="ordinateur.html">Simulateur ordinateur</a> (Fonds Habitat Seniors)</li>
+        <li><a href="pochette_LeGoff_SPECIMEN.pdf">Pochette de faux documents</a> (4 pages A4, une par binôme)</li>
+        <li><a href="qr-telephone.png">QR code en image</a> (pour un diaporama)</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note">Sites et documents fictifs, conçus pour un exercice pédagogique. Les fichiers déposés ne quittent jamais
+  l'appareil : la vérification se fait dans le navigateur, rien n'est envoyé ni enregistré.</p>
+</main>
+</body>
+</html>
