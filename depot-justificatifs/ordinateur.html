@@ -7,7 +7,8 @@
 <title>Fonds Habitat Seniors – Dépôt de pièces</title>
 <style>
   :root { --marine: #1f3a5f; --marine-clair: #2e5687; --fond: #eef1f5; --encre: #1c2430; --gris: #5b6675;
-          --ligne: #cfd6df; --ok: #1e7a46; --ko: #b3261e; --jaune: #f2c14e; }
+          --ligne: #cfd6df; --ok: #1e7a46; --ko: #b3261e; --jaune: #f2c14e;
+          --accent: var(--marine); --accent-fonce: var(--marine); }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: var(--fond); color: var(--encre); font-size: 15px; }
   .haut { background: #fff; border-bottom: 4px solid var(--jaune); }
@@ -18,8 +19,18 @@
   .compte { margin-left: auto; font-size: 13px; color: var(--gris); text-align: right; }
   nav { background: var(--marine); }
   nav .in { max-width: 980px; margin: 0 auto; padding: 0 24px; display: flex; gap: 26px; font-size: 14px; }
-  nav span { color: #dbe4f0; padding: 10px 0; }
-  nav span.actif { color: #fff; border-bottom: 3px solid var(--jaune); font-weight: 600; }
+  nav a { color: #dbe4f0; padding: 10px 0; text-decoration: none; border-bottom: 3px solid transparent; }
+  nav a:hover { color: #fff; }
+  nav a.actif { color: #fff; border-bottom-color: var(--jaune); font-weight: 600; }
+  .simple { max-width: 980px; margin: 0 auto; padding: 22px 24px 40px; }
+  .simple .carte { margin-bottom: 16px; }
+  .actu { border-left: 3px solid var(--jaune); padding: 4px 12px; margin: 12px 0; font-size: 14px; }
+  .statut-ko { color: var(--ko); font-weight: 600; }
+  .alerte { background: #fdf0ef; border: 1px solid var(--ko); border-left-width: 5px; color: var(--ko); padding: 10px 14px; margin-bottom: 16px; font-size: 14px; }
+  .alerte a { color: var(--ko); font-weight: 600; }
+  .alerte .fic { color: var(--encre); font-family: Consolas, monospace; font-size: 13px; word-break: break-all; margin-top: 3px; }
+  .certif { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin: 16px 0 4px; }
+  .certif input { width: 18px; height: 18px; flex: none; margin-top: 1px; }
   .page { max-width: 980px; margin: 0 auto; padding: 22px 24px 40px; display: grid; grid-template-columns: 220px 1fr; gap: 26px; }
   .etapes { background: #fff; border: 1px solid var(--ligne); padding: 14px; font-size: 13px; align-self: start; }
   .etapes div { padding: 7px 0 7px 26px; position: relative; color: var(--gris); }
@@ -48,9 +59,8 @@
   .actions { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
   .principal { background: var(--marine); color: #fff; border: 0; padding: 11px 22px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 3px; }
   .principal:hover { background: var(--marine-clair); }
+  .principal.petit { padding: 7px 14px; font-size: 14px; }
   .secondaire { color: var(--gris); font-size: 14px; }
-  .erreur-globale { color: var(--ko); margin-top: 12px; display: none; font-size: 14px; }
-  .succes { display: none; }
   .succes .titre { display: flex; align-items: center; gap: 12px; color: var(--ok); }
   .succes .titre h1 { color: var(--ok); }
   .recap { margin: 16px 0; border: 1px solid var(--ligne); padding: 12px 16px; background: #f7f9fb; font-size: 14px; line-height: 1.7; }
@@ -59,8 +69,37 @@
   footer { text-align: center; font-size: 12px; color: var(--gris); padding: 10px 20px 30px; }
   .mobile { display: none; max-width: 520px; margin: 40px auto; background: #fff; border: 1px solid var(--ligne); padding: 26px; text-align: center; }
   .mobile h1 { font-size: 19px; }
-  body.sur-mobile .page { display: none; }
+  body.sur-mobile .vue { display: none !important; }
   body.sur-mobile .mobile { display: block; }
+  /* Pièges communs (src/pieges.css) – couleurs prises dans --accent et --accent-fonce de chaque site */
+  [hidden] { display: none !important; }
+  .pg-fond { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+  .pg-boite { background: #fff; color: #222; width: 100%; max-width: 560px; padding: 18px 18px 20px; border-radius: 14px 14px 0 0;
+              font-size: 14px; line-height: 1.45; position: relative; max-height: 92vh; overflow: auto; }
+  @media (min-width: 700px) { .pg-fond { align-items: center; } .pg-boite { border-radius: 10px; } }
+  .pg-boite h2 { font-size: 18px; margin: 4px 0 8px; }
+  .pg-tout { display: block; width: 100%; padding: 13px; margin-top: 12px; border: 0; border-radius: 8px; background: var(--accent);
+             color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .pg-second { display: block; width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #bbb; border-radius: 8px; background: #fff;
+               color: #444; font-size: 14px; cursor: pointer; }
+  .pg-sans { background: none; border: 0; padding: 2px; color: #999; font-size: 11.5px; cursor: pointer; float: right; }
+  .pg-choix label { display: block; padding: 6px 0; border-bottom: 1px solid #eee; }
+  .pg-petit { font-size: 10.5px; color: #999; }
+  .pg-pub { position: relative; margin: 0 0 14px; padding: 12px 12px 12px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+            background: linear-gradient(120deg, #fff3c4, #ffd9e8); border: 1px solid #f0c36a; color: #3a2a00; }
+  .pg-mention { position: absolute; top: 3px; right: 6px; font-size: 9.5px; color: #8a7a55; }
+  .pg-pubbtn { display: inline-block; margin-top: 8px; padding: 6px 12px; background: #e8432e; color: #fff; border-radius: 20px; font-weight: 700; font-size: 13px; }
+  .pg-marque { margin-left: 10px; font-size: 12px; font-weight: 700; color: #b0302a; }
+  .pg-fauxhaut { margin: -18px -18px 14px; padding: 12px 18px; background: #e8432e; color: #fff; font-weight: 800; font-size: 18px; border-radius: inherit; }
+  .pg-fauxhaut small { font-weight: 400; font-size: 12px; opacity: .85; }
+  .pg-faux .pg-tout { background: #e8432e; }
+  .pg-stop { color: #b3261e; font-size: 24px !important; }
+  .pg-q { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; color: var(--accent-fonce);
+          font-size: 12px; font-weight: 700; line-height: 1; padding: 0; cursor: pointer; vertical-align: 1px; margin-left: 4px; }
+  .pg-rep { display: block; margin: 6px 0 4px; padding: 7px 9px; background: #f4f4f4; border-radius: 6px; font-size: 13px; color: #333; font-weight: 400; }
+  .bilan { font-size: 11.5px; color: #999; margin-top: 14px; }
+  @media (max-width: 699px) { .pg-faux { height: 100%; max-height: 100%; border-radius: 0; } }
+
 </style>
 </head>
 <body>
@@ -69,26 +108,72 @@
   <div><div class="marque">Fonds Habitat Seniors</div><div class="sous">Aides au logement des personnes âgées</div></div>
   <div class="compte">Mme Marie LE GOFF<br>Dossier n° FHS-29-04417</div>
 </div></div>
-<nav><div class="in"><span>Accueil</span><span class="actif">Mes demandes</span><span>Mes documents</span><span>Contact</span></div></nav>
+<nav><div class="in"><a href="#accueil">Accueil</a><a href="#demandes">Mes demandes</a><a href="#documents">Mes documents</a><a href="#contact">Contact</a></div></nav>
 
 <div class="mobile">
   <h1>Cette démarche n'est disponible que sur ordinateur.</h1>
   <p>Merci de vous connecter depuis un ordinateur pour déposer vos pièces justificatives.</p>
 </div>
 
-<div class="page">
-  <div class="etapes">
+<section class="vue simple" id="vue-accueil">
+  <div class="carte">
+    <h1>Bienvenue sur votre espace</h1>
+    <div class="ref">Dernière connexion le 03/11/2026</div>
+    <h2 style="font-size:16px;margin:18px 0 4px">Actualités</h2>
+    <div class="actu"><strong>Aide à l'adaptation du logement</strong> – Les montants d'aide pour l'installation d'une douche de plain-pied sont revalorisés.</div>
+    <div class="actu"><strong>Fermeture exceptionnelle</strong> – Nos services seront fermés le 26 décembre.</div>
+    <div class="actu"><strong>Démarchage abusif</strong> – Le Fonds Habitat Seniors ne mandate aucune entreprise pour des travaux à domicile.</div>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-demandes" hidden>
+  <div class="carte">
+    <h1>Mes demandes</h1>
+    <div class="ref">Suivez l'avancement de vos demandes.</div>
+    <table>
+      <thead><tr><th>Demande</th><th>N° de dossier</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Aide à l'adaptation du logement</td><td>FHS-29-04417</td><td>03/11/2026</td><td class="statut-ko">Incomplète</td>
+            <td><a class="principal petit" href="#depot" style="text-decoration:none">Reprendre</a></td></tr>
+        <tr><td>Aide au chauffage 2025</td><td>FHS-29-02871</td><td>14/10/2025</td><td>Clôturée</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-documents" hidden>
+  <div class="carte">
+    <h1>Mes documents</h1>
+    <p>Aucun document disponible.</p>
+    <p style="color:var(--gris);font-size:14px">Les pièces justificatives se déposent depuis la demande concernée.</p>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-contact" hidden>
+  <div class="carte">
+    <h1>Contact</h1>
+    <p>Pour toute question sur votre dossier, munissez-vous de votre numéro de dossier et contactez votre conseiller,
+    du lundi au vendredi de 9 h à 12 h.</p>
+  </div>
+</section>
+
+<section class="vue page" id="vue-depot" hidden>
+  <div>
+  <div class="etapes" id="etapes">
     <div class="fait" data-n="1">Situation du foyer</div>
     <div class="fait" data-n="2">Logement</div>
     <div class="fait" data-n="3">Ressources</div>
     <div class="cours" data-n="4">Pièces justificatives</div>
     <div data-n="5">Confirmation</div>
   </div>
+  <div id="emplPub" style="margin-top:16px"></div>
+  </div>
 
   <div>
     <div class="carte" id="formulaire">
       <h1>Pièces justificatives</h1>
       <div class="ref">Demande d'aide au logement – étape 4 sur 5</div>
+      <div class="alerte" id="alerte" hidden></div>
 
       <details class="regles" id="regles">
         <summary>Conditions de dépôt des fichiers (à lire avant de déposer)</summary>
@@ -97,7 +182,8 @@
           <li>Taille maximale : <strong>2 Mo</strong>.</li>
           <li>Le document doit comporter <strong>toutes ses pages</strong> dans un seul fichier.</li>
           <li>Le fichier doit être nommé ainsi : <code>NOM_avis-imposition.pdf</code><br>
-              nom de famille en MAJUSCULES, sans espace ni accent. Exemple : <code>DUPONT_avis-imposition.pdf</code></li>
+              NOM : nom de famille de la personne concernée par la demande, en MAJUSCULES, sans espace ni accent.
+              Exemple : <code>DUPONT_avis-imposition.pdf</code></li>
         </ul>
       </details>
 
@@ -105,10 +191,21 @@
         <thead><tr><th style="width:38%">Pièce demandée</th><th>Fichier</th></tr></thead>
         <tbody>
           <tr>
-            <td><strong>Avis d'imposition</strong> <span style="color:var(--ko)">*</span><br><span style="color:var(--gris);font-size:13px">Dernier avis d'impôt sur le revenu du foyer</span></td>
+            <td><strong>Justificatif de ressources N-1</strong> <span style="color:var(--ko)">*</span>
+              <button class="pg-q" data-rep="q_res" aria-label="Aide">?</button><br>
+              <span style="color:var(--gris);font-size:13px">Document fiscal intégral du foyer.</span>
+              <span class="pg-rep" id="q_res" hidden>Les « ressources », ce sont les revenus ; « N-1 », l'année précédente.
+              Il s'agit du dernier avis d'impôt sur le revenu, avec toutes ses pages.</span></td>
             <td>
               <label class="btn"><input type="file" id="fichier">Parcourir…</label>
               <div class="msg" id="msg"></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Autre document</strong> (facultatif)<br><span style="color:var(--gris);font-size:13px">Tout document utile à l'étude de votre demande.</span></td>
+            <td>
+              <label class="btn"><input type="file" id="autre">Parcourir…</label>
+              <div class="msg" id="msgAutre"></div>
             </td>
           </tr>
         </tbody>
@@ -116,23 +213,37 @@
 
       <div class="actions">
         <span class="secondaire">‹ Étape précédente</span>
-        <button class="principal" id="valider">Valider et transmettre</button>
+        <button class="principal" id="valider">Continuer</button>
       </div>
-      <div class="erreur-globale" id="erreurGlobale">Veuillez déposer un fichier conforme avant de valider.</div>
     </div>
 
-    <div class="carte succes" id="succes">
+    <div class="carte" id="confirmation" hidden>
+      <h1>Confirmation</h1>
+      <div class="ref">Demande d'aide au logement – étape 5 sur 5</div>
+      <div class="alerte" id="alerteCertif" hidden>Vous devez certifier l'exactitude des informations pour transmettre votre demande.</div>
+      <p>Vérifiez les pièces avant de transmettre votre demande.</p>
+      <div class="recap" id="recapAvant"></div>
+      <label class="certif"><input type="checkbox" id="certif">
+        <span>Je certifie sur l'honneur l'exactitude des informations et des pièces transmises.</span></label>
+      <div class="actions">
+        <button class="lien-bas" id="retour">‹ Modifier les pièces</button>
+        <button class="principal" id="transmettre">Transmettre ma demande</button>
+      </div>
+    </div>
+
+    <div class="carte" id="succes" hidden>
       <div class="titre">
         <svg width="42" height="42" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1e7a46"/><path d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h1>Pièce transmise</h1>
+        <h1>Demande transmise</h1>
       </div>
-      <p>Votre avis d'imposition a bien été ajouté au dossier n° FHS-29-04417 le <span id="date"></span>.</p>
+      <p>Votre demande a bien été transmise. Les pièces ont été ajoutées au dossier n° FHS-29-04417 le <span id="date"></span>.</p>
       <div class="recap" id="recap"></div>
       <p style="font-size:14px">Votre dossier est complet. Il sera étudié par nos services.</p>
+      <div class="bilan" id="bilan"></div>
       <button class="lien-bas" id="recommencer">Recommencer l'exercice</button>
     </div>
   </div>
-</div>
+</section>
 
 <footer>Site fictif – exercice pédagogique. Aucun fichier n'est envoyé : la vérification se fait sur cet ordinateur.</footer>
 
@@ -238,6 +349,98 @@ const Depot = (() => {
   return { analyser, mo, maintenant };
 })();
 
+/* Pièges « de terrain » communs aux deux simulateurs : cookies, fausse publicité, aides « ? », navigation.
+   Rien n'est envoyé : tout reste dans la page. Le bilan (choix cookies, clic sur la pub) s'affiche
+   sur l'écran final pour que le professeur en parle avec l'élève. */
+const Pieges = (() => {
+  const bilan = { cookies: 'aucun choix', pub: 'non cliquée' };
+  const el = h => { const d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstChild; };
+
+  function cookies(site) {
+    const m = el(`<div class="pg-fond"><div class="pg-boite pg-cookies" role="dialog">
+      <button class="pg-sans" data-r="refusés">Continuer sans accepter →</button>
+      <h2>Votre vie privée nous importe</h2>
+      <p>${site} et ses <u>148 partenaires</u> utilisent des cookies et traceurs pour mesurer l'audience,
+      personnaliser les contenus et vous proposer des publicités adaptées à vos centres d'intérêt.</p>
+      <div class="pg-choix" hidden>
+        <label><input type="checkbox" checked> Mesure d'audience</label>
+        <label><input type="checkbox" checked> Publicité personnalisée</label>
+        <label><input type="checkbox" checked> Partage avec les réseaux sociaux</label>
+        <button class="pg-second" data-r="perso">Enregistrer mes choix</button>
+      </div>
+      <button class="pg-tout" data-r="tout accepté">Tout accepter</button>
+      <button class="pg-second pg-perso">Personnaliser</button>
+    </div></div>`);
+    m.onclick = e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.classList.contains('pg-perso')) { m.querySelector('.pg-choix').hidden = false; b.hidden = true; return; }
+      let r = b.dataset.r;
+      if (r === 'perso') { const n = m.querySelectorAll('input:checked').length; r = n ? `${n} sur 3 acceptés` : 'refusés'; }
+      bilan.cookies = r; m.remove();
+    };
+    document.body.appendChild(m);
+  }
+
+  function pub(cible, site) {
+    const p = el(`<div class="pg-pub" role="button"><span class="pg-mention">Annonce</span>
+      <strong>Fichier refusé ?</strong> Convertissez et compressez vos documents en PDF conforme en 1 clic.
+      <span class="pg-pubbtn">Convertir gratuitement</span><span class="pg-marque">PdfMagik</span></div>`);
+    p.onclick = () => {
+      bilan.pub = 'ouverte puis fermée';
+      const f = el(`<div class="pg-fond"><div class="pg-boite pg-faux">
+        <div class="pg-fauxhaut">PdfMagik <small>convertisseur gratuit</small></div>
+        <h2>Tous vos fichiers en PDF</h2>
+        <p>JPG, HEIC, PNG, Word → PDF. Rapide, gratuit, sans inscription.</p>
+        <button class="pg-tout pg-dep">Déposer mes fichiers</button>
+        <p class="pg-petit">En utilisant ce service, vous acceptez nos conditions générales, dont la conservation
+        de vos fichiers et leur transmission à nos partenaires.</p>
+        <button class="pg-sans pg-ret">‹ Retour</button></div></div>`);
+      f.onclick = e => {
+        if (e.target.closest('.pg-ret')) f.remove();
+        if (e.target.closest('.pg-dep')) {
+          bilan.pub = 'fichiers presque envoyés';
+          f.firstChild.innerHTML = `<h2 class="pg-stop">Stop !</h2>
+            <p>Vous alliez confier les papiers de Mme Le Goff (avis d'imposition, carte d'identité…) à une société inconnue.</p>
+            <p>Ce site était une <strong>publicité</strong> : il n'a rien à voir avec ${site}. Les petites lignes
+            disaient qu'il conserve vos fichiers et les transmet à des partenaires.</p>
+            <p><strong>Une démarche se fait sur le site de l'organisme, et nulle part ailleurs.</strong></p>
+            <p class="pg-petit">(Exercice : rien n'a été envoyé.)</p>
+            <button class="pg-tout pg-ret">Revenir à ma démarche</button>`;
+        }
+      };
+      document.body.appendChild(f);
+    };
+    cible.appendChild(p);
+  }
+
+  // Bouton « ? » : <button class="pg-q" data-rep="id">?</button> ouvre/ferme l'élément id
+  document.addEventListener('click', e => {
+    const q = e.target.closest('.pg-q');
+    if (!q) return;
+    e.preventDefault();
+    const r = document.getElementById(q.dataset.rep);
+    r.hidden = !r.hidden;
+  });
+
+  // Navigation par rubriques : <section class="vue" id="vue-xxx">, lien href="#xxx"
+  function rubriques(defaut, apres) {
+    const montrer = () => {
+      const h = location.hash.slice(1);
+      const v = document.getElementById('vue-' + h) ? h : defaut;
+      document.querySelectorAll('.vue').forEach(s => { s.hidden = s.id !== 'vue-' + v; });
+      window.scrollTo(0, 0);
+      if (apres) apres(v);
+    };
+    addEventListener('hashchange', montrer);
+    montrer();
+  }
+
+  const recommencer = () => location.replace(location.pathname + location.search);
+  const resume = () => `Cookies : ${bilan.cookies} · Publicité : ${bilan.pub}`;
+  return { cookies, pub, rubriques, recommencer, resume };
+})();
+
 const MAX = 2 * 1024 * 1024;
 const ATTENDU = 'LEGOFF_avis-imposition.pdf';
 if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
@@ -258,49 +461,89 @@ function verifierNom(nom) {
   return "Nom de fichier non conforme.";
 }
 
-let valide = null;
-const input = document.getElementById('fichier');
-const msg = document.getElementById('msg');
-input.addEventListener('change', async () => {
-  const f = input.files[0];
-  if (!f) return;
-  msg.className = 'msg ok'; msg.textContent = 'Vérification…';
-  const info = await Depot.analyser(f);
-  let err = null;
-  if (info.format !== 'pdf') err = "Format non accepté.";
-  else if (info.taille > MAX) err = `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`;
-  else if (info.chiffre) err = "Fichier protégé : non accepté.";
-  else if (info.tronque) err = "Fichier illisible.";
-  else if (info.pages !== null && info.pages < 2) err = "Document incomplet : toutes les pages sont demandées.";
-  else err = verifierNom(info.nom);
-  const fic = `<div class="fic">${escapeHtml(info.nom)} (${Depot.mo(info.taille)})</div>`;
-  if (err) {
-    valide = null;
-    msg.className = 'msg ko';
-    msg.innerHTML = `${err} Consultez les <a href="#" id="voirRegles">conditions de dépôt</a>.${fic}`;
-    document.getElementById('voirRegles').onclick = e => { e.preventDefault(); const r = document.getElementById('regles'); r.open = true; r.scrollIntoView({ behavior: 'smooth' }); };
-  } else {
-    valide = { info, file: f };
-    msg.className = 'msg ok';
-    msg.innerHTML = `Fichier conforme.${fic}`;
-  }
-  input.value = '';
-  document.getElementById('erreurGlobale').style.display = 'none';
+let valide = null, autre = null;
+const alerte = document.getElementById('alerte');
+const titre = { fichier: 'Justificatif de ressources N-1', autre: 'Autre document' };
+
+function montrerAlerte(html) {
+  alerte.hidden = false;
+  alerte.innerHTML = html;
+  const l = alerte.querySelector('.voirRegles');
+  if (l) l.onclick = e => { e.preventDefault(); const r = document.getElementById('regles'); r.open = true; r.scrollIntoView({ behavior: 'smooth' }); };
+}
+
+function controle(info, obligatoire) {
+  if (info.format !== 'pdf') return "Format non accepté.";
+  if (info.taille > MAX) return `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`;
+  if (info.chiffre) return "Fichier protégé : non accepté.";
+  if (info.tronque) return "Fichier illisible.";
+  if (!obligatoire) return null;
+  if (info.pages !== null && info.pages < 2) return "Document incomplet : toutes les pages sont demandées.";
+  return verifierNom(info.nom);
+}
+
+[['fichier', 'msg'], ['autre', 'msgAutre']].forEach(([id, idMsg]) => {
+  const input = document.getElementById(id), msg = document.getElementById(idMsg), oblig = id === 'fichier';
+  input.addEventListener('change', async () => {
+    const f = input.files[0];
+    if (!f) return;
+    msg.className = 'msg ok'; msg.textContent = 'Vérification…';
+    const info = await Depot.analyser(f);
+    const err = controle(info, oblig);
+    const fic = `<div class="fic">${escapeHtml(info.nom)} (${Depot.mo(info.taille)})</div>`;
+    if (err) {
+      if (oblig) valide = null; else autre = null;
+      msg.className = 'msg ko';
+      msg.innerHTML = `✖ Fichier refusé.${fic}`;
+      montrerAlerte(`${oblig ? '' : 'Autre document : '}${err} Consultez les <a href="#" class="voirRegles">conditions de dépôt</a>.${fic}`);
+    } else {
+      if (oblig) valide = { info, file: f }; else autre = { info, file: f };
+      msg.className = 'msg ok';
+      msg.innerHTML = `${oblig ? 'Fichier conforme.' : 'Fichier ajouté.'}${fic}`;
+      alerte.hidden = true;
+    }
+    input.value = '';
+  });
 });
 
 function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+const montrer = id => ['formulaire', 'confirmation', 'succes'].forEach(c => { document.getElementById(c).hidden = c !== id; });
+const deposes = () => [['fichier', valide], ['autre', autre]].filter(x => x[1]);
 
 document.getElementById('valider').onclick = () => {
-  if (!valide) { document.getElementById('erreurGlobale').style.display = 'block'; return; }
-  const url = URL.createObjectURL(valide.file);
-  const pages = valide.info.pages ? `${valide.info.pages} pages` : 'pages non vérifiées';
-  document.getElementById('recap').innerHTML =
-    `<strong>Avis d'imposition</strong><br>${escapeHtml(valide.info.nom)} – ${Depot.mo(valide.info.taille)} – ${pages}<br><a href="${url}" target="_blank" rel="noopener">Voir le document</a>`;
-  document.getElementById('date').textContent = Depot.maintenant();
-  document.getElementById('formulaire').style.display = 'none';
-  document.getElementById('succes').style.display = 'block';
+  if (!valide) { montrerAlerte("Pièce obligatoire manquante ou non conforme : justificatif de ressources N-1."); return; }
+  document.getElementById('recapAvant').innerHTML = deposes().map(([k, v]) => `<strong>${titre[k]}</strong> : ${escapeHtml(v.info.nom)}`).join('<br>');
+  const e = document.getElementById('etapes').children;
+  e[3].className = 'fait'; e[4].className = 'cours';
+  montrer('confirmation');
 };
-document.getElementById('recommencer').onclick = () => location.reload();
+document.getElementById('retour').onclick = () => {
+  const e = document.getElementById('etapes').children;
+  e[3].className = 'cours'; e[4].className = '';
+  montrer('formulaire');
+};
+document.getElementById('certif').onchange = () => { document.getElementById('alerteCertif').hidden = true; };
+document.getElementById('transmettre').onclick = () => {
+  if (!document.getElementById('certif').checked) { document.getElementById('alerteCertif').hidden = false; return; }
+  document.getElementById('recap').innerHTML = deposes().map(([k, v]) => {
+    const pages = v.info.pages ? `${v.info.pages} page${v.info.pages > 1 ? 's' : ''}` : 'pages non vérifiées';
+    return `<strong>${titre[k]}</strong><br>${escapeHtml(v.info.nom)} – ${Depot.mo(v.info.taille)} – ${pages}<br><a href="${URL.createObjectURL(v.file)}" target="_blank" rel="noopener">Voir le document</a>`;
+  }).join('<br>');
+  document.getElementById('date').textContent = Depot.maintenant();
+  document.getElementById('bilan').textContent = Pieges.resume();
+  document.getElementById('etapes').children[4].className = 'fait';
+  montrer('succes');
+};
+document.getElementById('recommencer').onclick = Pieges.recommencer;
+
+Pieges.rubriques('accueil', v => {
+  const onglet = v === 'depot' ? 'demandes' : v;
+  document.querySelectorAll('nav a').forEach(a => a.classList.toggle('actif', a.getAttribute('href') === '#' + onglet));
+});
+if (!document.body.classList.contains('sur-mobile')) {
+  Pieges.pub(document.getElementById('emplPub'), 'le Fonds Habitat Seniors');
+  Pieges.cookies('Le Fonds Habitat Seniors');
+}
 </script>
 </body>
 </html>

@@ -7,7 +7,8 @@
 <title>Fonds Habitat Seniors – Dépôt de pièces</title>
 <style>
   :root { --marine: #1f3a5f; --marine-clair: #2e5687; --fond: #eef1f5; --encre: #1c2430; --gris: #5b6675;
-          --ligne: #cfd6df; --ok: #1e7a46; --ko: #b3261e; --jaune: #f2c14e; }
+          --ligne: #cfd6df; --ok: #1e7a46; --ko: #b3261e; --jaune: #f2c14e;
+          --accent: var(--marine); --accent-fonce: var(--marine); }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: var(--fond); color: var(--encre); font-size: 15px; }
   .haut { background: #fff; border-bottom: 4px solid var(--jaune); }
@@ -18,8 +19,18 @@
   .compte { margin-left: auto; font-size: 13px; color: var(--gris); text-align: right; }
   nav { background: var(--marine); }
   nav .in { max-width: 980px; margin: 0 auto; padding: 0 24px; display: flex; gap: 26px; font-size: 14px; }
-  nav span { color: #dbe4f0; padding: 10px 0; }
-  nav span.actif { color: #fff; border-bottom: 3px solid var(--jaune); font-weight: 600; }
+  nav a { color: #dbe4f0; padding: 10px 0; text-decoration: none; border-bottom: 3px solid transparent; }
+  nav a:hover { color: #fff; }
+  nav a.actif { color: #fff; border-bottom-color: var(--jaune); font-weight: 600; }
+  .simple { max-width: 980px; margin: 0 auto; padding: 22px 24px 40px; }
+  .simple .carte { margin-bottom: 16px; }
+  .actu { border-left: 3px solid var(--jaune); padding: 4px 12px; margin: 12px 0; font-size: 14px; }
+  .statut-ko { color: var(--ko); font-weight: 600; }
+  .alerte { background: #fdf0ef; border: 1px solid var(--ko); border-left-width: 5px; color: var(--ko); padding: 10px 14px; margin-bottom: 16px; font-size: 14px; }
+  .alerte a { color: var(--ko); font-weight: 600; }
+  .alerte .fic { color: var(--encre); font-family: Consolas, monospace; font-size: 13px; word-break: break-all; margin-top: 3px; }
+  .certif { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin: 16px 0 4px; }
+  .certif input { width: 18px; height: 18px; flex: none; margin-top: 1px; }
   .page { max-width: 980px; margin: 0 auto; padding: 22px 24px 40px; display: grid; grid-template-columns: 220px 1fr; gap: 26px; }
   .etapes { background: #fff; border: 1px solid var(--ligne); padding: 14px; font-size: 13px; align-self: start; }
   .etapes div { padding: 7px 0 7px 26px; position: relative; color: var(--gris); }
@@ -48,9 +59,8 @@
   .actions { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
   .principal { background: var(--marine); color: #fff; border: 0; padding: 11px 22px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 3px; }
   .principal:hover { background: var(--marine-clair); }
+  .principal.petit { padding: 7px 14px; font-size: 14px; }
   .secondaire { color: var(--gris); font-size: 14px; }
-  .erreur-globale { color: var(--ko); margin-top: 12px; display: none; font-size: 14px; }
-  .succes { display: none; }
   .succes .titre { display: flex; align-items: center; gap: 12px; color: var(--ok); }
   .succes .titre h1 { color: var(--ok); }
   .recap { margin: 16px 0; border: 1px solid var(--ligne); padding: 12px 16px; background: #f7f9fb; font-size: 14px; line-height: 1.7; }
@@ -59,8 +69,9 @@
   footer { text-align: center; font-size: 12px; color: var(--gris); padding: 10px 20px 30px; }
   .mobile { display: none; max-width: 520px; margin: 40px auto; background: #fff; border: 1px solid var(--ligne); padding: 26px; text-align: center; }
   .mobile h1 { font-size: 19px; }
-  body.sur-mobile .page { display: none; }
+  body.sur-mobile .vue { display: none !important; }
   body.sur-mobile .mobile { display: block; }
+/*PIEGES_CSS*/
 </style>
 </head>
 <body>
@@ -69,26 +80,72 @@
   <div><div class="marque">Fonds Habitat Seniors</div><div class="sous">Aides au logement des personnes âgées</div></div>
   <div class="compte">Mme Marie LE GOFF<br>Dossier n° FHS-29-04417</div>
 </div></div>
-<nav><div class="in"><span>Accueil</span><span class="actif">Mes demandes</span><span>Mes documents</span><span>Contact</span></div></nav>
+<nav><div class="in"><a href="#accueil">Accueil</a><a href="#demandes">Mes demandes</a><a href="#documents">Mes documents</a><a href="#contact">Contact</a></div></nav>
 
 <div class="mobile">
   <h1>Cette démarche n'est disponible que sur ordinateur.</h1>
   <p>Merci de vous connecter depuis un ordinateur pour déposer vos pièces justificatives.</p>
 </div>
 
-<div class="page">
-  <div class="etapes">
+<section class="vue simple" id="vue-accueil">
+  <div class="carte">
+    <h1>Bienvenue sur votre espace</h1>
+    <div class="ref">Dernière connexion le 03/11/2026</div>
+    <h2 style="font-size:16px;margin:18px 0 4px">Actualités</h2>
+    <div class="actu"><strong>Aide à l'adaptation du logement</strong> – Les montants d'aide pour l'installation d'une douche de plain-pied sont revalorisés.</div>
+    <div class="actu"><strong>Fermeture exceptionnelle</strong> – Nos services seront fermés le 26 décembre.</div>
+    <div class="actu"><strong>Démarchage abusif</strong> – Le Fonds Habitat Seniors ne mandate aucune entreprise pour des travaux à domicile.</div>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-demandes" hidden>
+  <div class="carte">
+    <h1>Mes demandes</h1>
+    <div class="ref">Suivez l'avancement de vos demandes.</div>
+    <table>
+      <thead><tr><th>Demande</th><th>N° de dossier</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Aide à l'adaptation du logement</td><td>FHS-29-04417</td><td>03/11/2026</td><td class="statut-ko">Incomplète</td>
+            <td><a class="principal petit" href="#depot" style="text-decoration:none">Reprendre</a></td></tr>
+        <tr><td>Aide au chauffage 2025</td><td>FHS-29-02871</td><td>14/10/2025</td><td>Clôturée</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-documents" hidden>
+  <div class="carte">
+    <h1>Mes documents</h1>
+    <p>Aucun document disponible.</p>
+    <p style="color:var(--gris);font-size:14px">Les pièces justificatives se déposent depuis la demande concernée.</p>
+  </div>
+</section>
+
+<section class="vue simple" id="vue-contact" hidden>
+  <div class="carte">
+    <h1>Contact</h1>
+    <p>Pour toute question sur votre dossier, munissez-vous de votre numéro de dossier et contactez votre conseiller,
+    du lundi au vendredi de 9 h à 12 h.</p>
+  </div>
+</section>
+
+<section class="vue page" id="vue-depot" hidden>
+  <div>
+  <div class="etapes" id="etapes">
     <div class="fait" data-n="1">Situation du foyer</div>
     <div class="fait" data-n="2">Logement</div>
     <div class="fait" data-n="3">Ressources</div>
     <div class="cours" data-n="4">Pièces justificatives</div>
     <div data-n="5">Confirmation</div>
   </div>
+  <div id="emplPub" style="margin-top:16px"></div>
+  </div>
 
   <div>
     <div class="carte" id="formulaire">
       <h1>Pièces justificatives</h1>
       <div class="ref">Demande d'aide au logement – étape 4 sur 5</div>
+      <div class="alerte" id="alerte" hidden></div>
 
       <details class="regles" id="regles">
         <summary>Conditions de dépôt des fichiers (à lire avant de déposer)</summary>
@@ -97,7 +154,8 @@
           <li>Taille maximale : <strong>2 Mo</strong>.</li>
           <li>Le document doit comporter <strong>toutes ses pages</strong> dans un seul fichier.</li>
           <li>Le fichier doit être nommé ainsi : <code>NOM_avis-imposition.pdf</code><br>
-              nom de famille en MAJUSCULES, sans espace ni accent. Exemple : <code>DUPONT_avis-imposition.pdf</code></li>
+              NOM : nom de famille de la personne concernée par la demande, en MAJUSCULES, sans espace ni accent.
+              Exemple : <code>DUPONT_avis-imposition.pdf</code></li>
         </ul>
       </details>
 
@@ -105,10 +163,21 @@
         <thead><tr><th style="width:38%">Pièce demandée</th><th>Fichier</th></tr></thead>
         <tbody>
           <tr>
-            <td><strong>Avis d'imposition</strong> <span style="color:var(--ko)">*</span><br><span style="color:var(--gris);font-size:13px">Dernier avis d'impôt sur le revenu du foyer</span></td>
+            <td><strong>Justificatif de ressources N-1</strong> <span style="color:var(--ko)">*</span>
+              <button class="pg-q" data-rep="q_res" aria-label="Aide">?</button><br>
+              <span style="color:var(--gris);font-size:13px">Document fiscal intégral du foyer.</span>
+              <span class="pg-rep" id="q_res" hidden>Les « ressources », ce sont les revenus ; « N-1 », l'année précédente.
+              Il s'agit du dernier avis d'impôt sur le revenu, avec toutes ses pages.</span></td>
             <td>
               <label class="btn"><input type="file" id="fichier">Parcourir…</label>
               <div class="msg" id="msg"></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Autre document</strong> (facultatif)<br><span style="color:var(--gris);font-size:13px">Tout document utile à l'étude de votre demande.</span></td>
+            <td>
+              <label class="btn"><input type="file" id="autre">Parcourir…</label>
+              <div class="msg" id="msgAutre"></div>
             </td>
           </tr>
         </tbody>
@@ -116,23 +185,37 @@
 
       <div class="actions">
         <span class="secondaire">‹ Étape précédente</span>
-        <button class="principal" id="valider">Valider et transmettre</button>
+        <button class="principal" id="valider">Continuer</button>
       </div>
-      <div class="erreur-globale" id="erreurGlobale">Veuillez déposer un fichier conforme avant de valider.</div>
     </div>
 
-    <div class="carte succes" id="succes">
+    <div class="carte" id="confirmation" hidden>
+      <h1>Confirmation</h1>
+      <div class="ref">Demande d'aide au logement – étape 5 sur 5</div>
+      <div class="alerte" id="alerteCertif" hidden>Vous devez certifier l'exactitude des informations pour transmettre votre demande.</div>
+      <p>Vérifiez les pièces avant de transmettre votre demande.</p>
+      <div class="recap" id="recapAvant"></div>
+      <label class="certif"><input type="checkbox" id="certif">
+        <span>Je certifie sur l'honneur l'exactitude des informations et des pièces transmises.</span></label>
+      <div class="actions">
+        <button class="lien-bas" id="retour">‹ Modifier les pièces</button>
+        <button class="principal" id="transmettre">Transmettre ma demande</button>
+      </div>
+    </div>
+
+    <div class="carte" id="succes" hidden>
       <div class="titre">
         <svg width="42" height="42" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1e7a46"/><path d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h1>Pièce transmise</h1>
+        <h1>Demande transmise</h1>
       </div>
-      <p>Votre avis d'imposition a bien été ajouté au dossier n° FHS-29-04417 le <span id="date"></span>.</p>
+      <p>Votre demande a bien été transmise. Les pièces ont été ajoutées au dossier n° FHS-29-04417 le <span id="date"></span>.</p>
       <div class="recap" id="recap"></div>
       <p style="font-size:14px">Votre dossier est complet. Il sera étudié par nos services.</p>
+      <div class="bilan" id="bilan"></div>
       <button class="lien-bas" id="recommencer">Recommencer l'exercice</button>
     </div>
   </div>
-</div>
+</section>
 
 <footer>Site fictif – exercice pédagogique. Aucun fichier n'est envoyé : la vérification se fait sur cet ordinateur.</footer>
 
@@ -158,49 +241,89 @@ function verifierNom(nom) {
   return "Nom de fichier non conforme.";
 }
 
-let valide = null;
-const input = document.getElementById('fichier');
-const msg = document.getElementById('msg');
-input.addEventListener('change', async () => {
-  const f = input.files[0];
-  if (!f) return;
-  msg.className = 'msg ok'; msg.textContent = 'Vérification…';
-  const info = await Depot.analyser(f);
-  let err = null;
-  if (info.format !== 'pdf') err = "Format non accepté.";
-  else if (info.taille > MAX) err = `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`;
-  else if (info.chiffre) err = "Fichier protégé : non accepté.";
-  else if (info.tronque) err = "Fichier illisible.";
-  else if (info.pages !== null && info.pages < 2) err = "Document incomplet : toutes les pages sont demandées.";
-  else err = verifierNom(info.nom);
-  const fic = `<div class="fic">${escapeHtml(info.nom)} (${Depot.mo(info.taille)})</div>`;
-  if (err) {
-    valide = null;
-    msg.className = 'msg ko';
-    msg.innerHTML = `${err} Consultez les <a href="#" id="voirRegles">conditions de dépôt</a>.${fic}`;
-    document.getElementById('voirRegles').onclick = e => { e.preventDefault(); const r = document.getElementById('regles'); r.open = true; r.scrollIntoView({ behavior: 'smooth' }); };
-  } else {
-    valide = { info, file: f };
-    msg.className = 'msg ok';
-    msg.innerHTML = `Fichier conforme.${fic}`;
-  }
-  input.value = '';
-  document.getElementById('erreurGlobale').style.display = 'none';
+let valide = null, autre = null;
+const alerte = document.getElementById('alerte');
+const titre = { fichier: 'Justificatif de ressources N-1', autre: 'Autre document' };
+
+function montrerAlerte(html) {
+  alerte.hidden = false;
+  alerte.innerHTML = html;
+  const l = alerte.querySelector('.voirRegles');
+  if (l) l.onclick = e => { e.preventDefault(); const r = document.getElementById('regles'); r.open = true; r.scrollIntoView({ behavior: 'smooth' }); };
+}
+
+function controle(info, obligatoire) {
+  if (info.format !== 'pdf') return "Format non accepté.";
+  if (info.taille > MAX) return `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`;
+  if (info.chiffre) return "Fichier protégé : non accepté.";
+  if (info.tronque) return "Fichier illisible.";
+  if (!obligatoire) return null;
+  if (info.pages !== null && info.pages < 2) return "Document incomplet : toutes les pages sont demandées.";
+  return verifierNom(info.nom);
+}
+
+[['fichier', 'msg'], ['autre', 'msgAutre']].forEach(([id, idMsg]) => {
+  const input = document.getElementById(id), msg = document.getElementById(idMsg), oblig = id === 'fichier';
+  input.addEventListener('change', async () => {
+    const f = input.files[0];
+    if (!f) return;
+    msg.className = 'msg ok'; msg.textContent = 'Vérification…';
+    const info = await Depot.analyser(f);
+    const err = controle(info, oblig);
+    const fic = `<div class="fic">${escapeHtml(info.nom)} (${Depot.mo(info.taille)})</div>`;
+    if (err) {
+      if (oblig) valide = null; else autre = null;
+      msg.className = 'msg ko';
+      msg.innerHTML = `✖ Fichier refusé.${fic}`;
+      montrerAlerte(`${oblig ? '' : 'Autre document : '}${err} Consultez les <a href="#" class="voirRegles">conditions de dépôt</a>.${fic}`);
+    } else {
+      if (oblig) valide = { info, file: f }; else autre = { info, file: f };
+      msg.className = 'msg ok';
+      msg.innerHTML = `${oblig ? 'Fichier conforme.' : 'Fichier ajouté.'}${fic}`;
+      alerte.hidden = true;
+    }
+    input.value = '';
+  });
 });
 
 function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+const montrer = id => ['formulaire', 'confirmation', 'succes'].forEach(c => { document.getElementById(c).hidden = c !== id; });
+const deposes = () => [['fichier', valide], ['autre', autre]].filter(x => x[1]);
 
 document.getElementById('valider').onclick = () => {
-  if (!valide) { document.getElementById('erreurGlobale').style.display = 'block'; return; }
-  const url = URL.createObjectURL(valide.file);
-  const pages = valide.info.pages ? `${valide.info.pages} pages` : 'pages non vérifiées';
-  document.getElementById('recap').innerHTML =
-    `<strong>Avis d'imposition</strong><br>${escapeHtml(valide.info.nom)} – ${Depot.mo(valide.info.taille)} – ${pages}<br><a href="${url}" target="_blank" rel="noopener">Voir le document</a>`;
-  document.getElementById('date').textContent = Depot.maintenant();
-  document.getElementById('formulaire').style.display = 'none';
-  document.getElementById('succes').style.display = 'block';
+  if (!valide) { montrerAlerte("Pièce obligatoire manquante ou non conforme : justificatif de ressources N-1."); return; }
+  document.getElementById('recapAvant').innerHTML = deposes().map(([k, v]) => `<strong>${titre[k]}</strong> : ${escapeHtml(v.info.nom)}`).join('<br>');
+  const e = document.getElementById('etapes').children;
+  e[3].className = 'fait'; e[4].className = 'cours';
+  montrer('confirmation');
 };
-document.getElementById('recommencer').onclick = () => location.reload();
+document.getElementById('retour').onclick = () => {
+  const e = document.getElementById('etapes').children;
+  e[3].className = 'cours'; e[4].className = '';
+  montrer('formulaire');
+};
+document.getElementById('certif').onchange = () => { document.getElementById('alerteCertif').hidden = true; };
+document.getElementById('transmettre').onclick = () => {
+  if (!document.getElementById('certif').checked) { document.getElementById('alerteCertif').hidden = false; return; }
+  document.getElementById('recap').innerHTML = deposes().map(([k, v]) => {
+    const pages = v.info.pages ? `${v.info.pages} page${v.info.pages > 1 ? 's' : ''}` : 'pages non vérifiées';
+    return `<strong>${titre[k]}</strong><br>${escapeHtml(v.info.nom)} – ${Depot.mo(v.info.taille)} – ${pages}<br><a href="${URL.createObjectURL(v.file)}" target="_blank" rel="noopener">Voir le document</a>`;
+  }).join('<br>');
+  document.getElementById('date').textContent = Depot.maintenant();
+  document.getElementById('bilan').textContent = Pieges.resume();
+  document.getElementById('etapes').children[4].className = 'fait';
+  montrer('succes');
+};
+document.getElementById('recommencer').onclick = Pieges.recommencer;
+
+Pieges.rubriques('accueil', v => {
+  const onglet = v === 'depot' ? 'demandes' : v;
+  document.querySelectorAll('nav a').forEach(a => a.classList.toggle('actif', a.getAttribute('href') === '#' + onglet));
+});
+if (!document.body.classList.contains('sur-mobile')) {
+  Pieges.pub(document.getElementById('emplPub'), 'le Fonds Habitat Seniors');
+  Pieges.cookies('Le Fonds Habitat Seniors');
+}
 </script>
 </body>
 </html>

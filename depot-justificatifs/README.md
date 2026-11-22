@@ -6,7 +6,7 @@ Ce dossier contient les ressources numériques d'une séance de démarches en li
 
 | Ressource | Adresse | Rôle |
 | --- | --- | --- |
-| Page professeur | `index.html` | QR code à projeter, liens vers tout le reste |
+| Page professeur | `index.html` | QR code à projeter ; les liens professeur sont cachés derrière la petite flèche grise en bas à droite |
 | Simulateur téléphone | `telephone.html` | Site fictif « Armor Retraite » : 3 pièces à déposer depuis le téléphone |
 | Simulateur ordinateur | `ordinateur.html` | Site fictif « Fonds Habitat Seniors » : 1 pièce à déposer depuis le PC, nom de fichier imposé |
 | Pochette | `pochette_LeGoff_SPECIMEN.pdf` | Faux documents à imprimer, une pochette par binôme (4 pages A4) |
@@ -18,10 +18,28 @@ Deux documents de travail, privés, accompagnent ce dossier (ils sont dans le pr
 
 Les élèves jouent une aidante à domicile qui aide Mme Marie Le Goff, 78 ans (personnage fictif), à constituer deux dossiers en ligne.
 
-1. **À domicile, sur téléphone.** Demande d'aide ménagère à sa caisse de retraite. Les élèves numérisent trois papiers avec le téléphone et les déposent sur `telephone.html`, ouvert par QR code.
+1. **À domicile, sur téléphone.** Demande d'aide ménagère à sa caisse de retraite. Les élèves numérisent trois papiers avec le téléphone et les déposent sur `telephone.html`, ouvert par QR code. Quand la demande est transmise, l'écran leur demande d'appeler le professeur pour lui montrer.
 2. **À la structure, sur ordinateur.** Le second organisme n'accepte les dépôts que depuis un ordinateur. Les élèves font passer l'avis d'imposition du téléphone au PC (OneDrive ou une autre méthode, qu'elles décrivent par écrit), le renomment, puis le déposent sur `ordinateur.html`.
 
 Principe pédagogique : on laisse l'erreur arriver. Les critères d'un justificatif accepté ne sont pas donnés au départ. C'est le site qui refuse, et la classe formule les critères à partir des refus.
+
+## Les pièges « de terrain »
+
+Les deux sites reproduisent ce qui fait trébucher sur les vrais sites. Ils ne disent rien d'avance : c'est à l'élève de s'en sortir.
+
+| Piège | Téléphone (Armor Retraite) | Ordinateur (Fonds Habitat Seniors) | Réflexe visé |
+| --- | --- | --- | --- |
+| Bandeau cookies qui masque la page | « Tout accepter » en gros, « Continuer sans accepter » en petit gris | Idem | Lire avant de cliquer |
+| Dépôt enfoui dans l'espace personnel | Arrivée sur l'accueil. Chemin : ☰ › Mes démarches › Suivre mes demandes › Compléter mon dossier. « Faire une nouvelle demande » est une impasse (« déjà une demande en cours »). Un message non lu donne l'indice. | Arrivée sur l'accueil. Chemin : Mes demandes › Reprendre. « Mes documents » est une impasse. | Naviguer dans un espace personnel, lire ses messages |
+| Fausse publicité « PdfMagik » | Au-dessus des pièces | Sous les étapes, à gauche | Ne jamais confier des papiers à un site tiers |
+| Vocabulaire administratif | « Pièce d'identité en cours de validité », « Justificatif de domicile de moins de 3 mois », « Justificatif de ressources N-1 », dans un ordre différent de la pochette, avec une aide « ? » | « Justificatif de ressources N-1 », aide « ? » | Décoder le jargon |
+| « Fichier ajouté » n'est pas « envoyé » | « Continuer » mène à un récapitulatif : case de certification à cocher, puis « Confirmer l'envoi » | « Continuer » mène à l'étape 5 : case de certification, puis « Transmettre ma demande » | Aller jusqu'à la confirmation |
+| Erreur loin du champ | – | Le champ affiche seulement « Fichier refusé ». La raison est dans un encadré rouge en haut du formulaire (visible sans faire défiler). | Chercher le message d'erreur |
+| Mauvais emplacement | – | Un second emplacement « Autre document (facultatif) » accepte n'importe quel PDF ; si l'avis y est déposé, « Continuer » répond « Pièce obligatoire manquante » | Déposer au bon endroit |
+
+Le fichier tombé dans la fausse publicité n'est jamais lu : le clic sur « Déposer mes fichiers » affiche un écran « Stop ! » qui explique le danger.
+
+**Pour le débriefing :** en bas de l'écran final, une ligne grise indique le choix fait sur les cookies (refusés, tout accepté, x sur 3 acceptés) et ce qui s'est passé avec la publicité (non cliquée, ouverte puis fermée, fichiers presque envoyés). Rien n'est enregistré ailleurs : recharger la page efface tout.
 
 ## Ce que vérifient les simulateurs
 
@@ -29,11 +47,11 @@ Les deux pages lisent le fichier choisi **dans le navigateur**. Rien n'est envoy
 
 | Règle | Téléphone (Armor Retraite) | Ordinateur (Fonds Habitat Seniors) |
 | --- | --- | --- |
-| Pièces | Avis d'imposition, pièce d'identité, justificatif de domicile | Avis d'imposition |
+| Pièces | Pièce d'identité, justificatif de domicile, avis d'imposition (« justificatif de ressources N-1 ») | Avis d'imposition (« justificatif de ressources N-1 ») + un emplacement facultatif |
 | Format | PDF uniquement, reconnu à son contenu (une photo renommée en .pdf est refusée) | Idem |
 | Poids maximal | 2 Mo par fichier | 2 Mo |
 | Pages | Avis : au moins 2 ; identité : 1 ou 2 ; domicile : au moins 1 | Au moins 2 |
-| Nom du fichier | Libre | Exactement `LEGOFF_avis-imposition.pdf` |
+| Nom du fichier | Libre | Exactement `LEGOFF_avis-imposition.pdf` (les conditions précisent : nom de famille de la personne concernée par la demande) |
 | Sur le mauvais appareil | Fonctionne aussi sur PC | Sur téléphone, affiche « Cette démarche n'est disponible que sur ordinateur » |
 
 Messages de refus, volontairement secs comme sur un vrai site, chacun avec un lien vers les règles :
@@ -44,7 +62,7 @@ Messages de refus, volontairement secs comme sur un vrai site, chacun avec un li
 - « Document non conforme : 2 pages maximum. » (pièce d'identité)
 - Sur ordinateur, « Nom de fichier non conforme » est précisé selon le cas : espaces, accents, minuscules, extension en double (`.pdf.pdf`, piège fréquent quand Windows masque les extensions).
 
-Quand tout est conforme, un écran de réussite s'affiche (« Demande transmise » ou « Pièce transmise »), avec la date et l'heure. Pour chaque fichier, un lien « Voir le document » ouvre le PDF de l'élève : le professeur vérifie ainsi la lisibilité directement sur son appareil.
+Quand tout est conforme et la case de certification cochée, l'écran « Demande transmise » s'affiche, avec la date et l'heure. Sur téléphone, il demande d'appeler le professeur. Pour chaque fichier, un lien « Voir le document » ouvre le PDF de l'élève : le professeur vérifie ainsi la lisibilité directement sur son appareil.
 
 **Limite assumée :** le simulateur contrôle la forme (format, poids, pages, nom), pas le contenu. Une photo floue mise en PDF, ou une carte d'identité sans verso sur une seule page, passent. C'est le professeur qui vérifie en ouvrant le document.
 
@@ -74,10 +92,11 @@ depot-justificatifs/
 ├── qr-telephone.svg / .png       PRODUITS par outils/qr.py
 ├── src/
 │   ├── core.js                   lecture du fichier, détection du format, comptage des pages
+│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques
 │   ├── telephone.src.html        page téléphone (règles, textes, charte), marqueur /*CORE*/
 │   └── ordinateur.src.html       page ordinateur, marqueur /*CORE*/
 └── outils/
-    ├── build.py                  insère core.js dans les deux pages
+    ├── build.py                  insère core.js, pieges.js et pieges.css dans les deux pages
     ├── pochette.py               génère la pochette (reportlab)
     ├── qr.py                     génère les QR codes
     └── test_sims.py              tests automatiques (Playwright)
@@ -86,6 +105,7 @@ depot-justificatifs/
 Où changer quoi :
 
 - **Une règle du site téléphone** (poids, pages) : `MAX` et le tableau `PIECES` dans `src/telephone.src.html`.
+- **Les pièges communs** (texte du bandeau cookies, fausse publicité) : `src/pieges.js`.
 - **Une règle du site ordinateur** : `MAX`, `ATTENDU` (nom imposé) et `verifierNom()` dans `src/ordinateur.src.html`. Pensez à mettre à jour le texte des « Conditions de dépôt » dans la même page.
 - **Le personnage ou les documents** : constantes en tête de `outils/pochette.py`. Si le nom change, changez aussi `ATTENDU`, les en-têtes « Mme Marie LE GOFF » des deux pages et le README.
 
@@ -96,7 +116,7 @@ python3 outils/build.py
 python3 outils/test_sims.py
 ```
 
-Les tests fabriquent leurs propres fichiers d'essai à partir de la pochette : PDF de 1 à 3 pages, PDF compressé, JPG, faux HEIC, PDF trop lourd, noms piégés. Ils vérifient chaque message attendu (24 cas). Dépendances : Python 3, `playwright`, `reportlab`, `qrcode`, ainsi que `qpdf`, `img2pdf`, ImageMagick et poppler-utils.
+Les tests fabriquent leurs propres fichiers d'essai à partir de la pochette : PDF de 1 à 3 pages, PDF compressé, JPG, faux HEIC, PDF trop lourd, noms piégés. Ils parcourent aussi les deux sites comme une élève (cookies, menus, fausse publicité, récapitulatif, case de certification, mauvais emplacement) : 40 vérifications. Dépendances : Python 3, `playwright`, `reportlab`, `qrcode`, ainsi que `qpdf`, `img2pdf`, ImageMagick et poppler-utils.
 
 ## Mise en ligne
 

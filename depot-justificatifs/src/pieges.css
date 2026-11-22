@@ -1,0 +1,28 @@
+  /* Pièges communs (src/pieges.css) – couleurs prises dans --accent et --accent-fonce de chaque site */
+  [hidden] { display: none !important; }
+  .pg-fond { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+  .pg-boite { background: #fff; color: #222; width: 100%; max-width: 560px; padding: 18px 18px 20px; border-radius: 14px 14px 0 0;
+              font-size: 14px; line-height: 1.45; position: relative; max-height: 92vh; overflow: auto; }
+  @media (min-width: 700px) { .pg-fond { align-items: center; } .pg-boite { border-radius: 10px; } }
+  .pg-boite h2 { font-size: 18px; margin: 4px 0 8px; }
+  .pg-tout { display: block; width: 100%; padding: 13px; margin-top: 12px; border: 0; border-radius: 8px; background: var(--accent);
+             color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .pg-second { display: block; width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #bbb; border-radius: 8px; background: #fff;
+               color: #444; font-size: 14px; cursor: pointer; }
+  .pg-sans { background: none; border: 0; padding: 2px; color: #999; font-size: 11.5px; cursor: pointer; float: right; }
+  .pg-choix label { display: block; padding: 6px 0; border-bottom: 1px solid #eee; }
+  .pg-petit { font-size: 10.5px; color: #999; }
+  .pg-pub { position: relative; margin: 0 0 14px; padding: 12px 12px 12px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+            background: linear-gradient(120deg, #fff3c4, #ffd9e8); border: 1px solid #f0c36a; color: #3a2a00; }
+  .pg-mention { position: absolute; top: 3px; right: 6px; font-size: 9.5px; color: #8a7a55; }
+  .pg-pubbtn { display: inline-block; margin-top: 8px; padding: 6px 12px; background: #e8432e; color: #fff; border-radius: 20px; font-weight: 700; font-size: 13px; }
+  .pg-marque { margin-left: 10px; font-size: 12px; font-weight: 700; color: #b0302a; }
+  .pg-fauxhaut { margin: -18px -18px 14px; padding: 12px 18px; background: #e8432e; color: #fff; font-weight: 800; font-size: 18px; border-radius: inherit; }
+  .pg-fauxhaut small { font-weight: 400; font-size: 12px; opacity: .85; }
+  .pg-faux .pg-tout { background: #e8432e; }
+  .pg-stop { color: #b3261e; font-size: 24px !important; }
+  .pg-q { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; color: var(--accent-fonce);
+          font-size: 12px; font-weight: 700; line-height: 1; padding: 0; cursor: pointer; vertical-align: 1px; margin-left: 4px; }
+  .pg-rep { display: block; margin: 6px 0 4px; padding: 7px 9px; background: #f4f4f4; border-radius: 6px; font-size: 13px; color: #333; font-weight: 400; }
+  .bilan { font-size: 11.5px; color: #999; margin-top: 14px; }
+  @media (max-width: 699px) { .pg-faux { height: 100%; max-height: 100%; border-radius: 0; } }

@@ -9,6 +9,7 @@
   :root {
     --brique: #b4532a; --brique-fonce: #8a3c1c; --creme: #fbf6ef; --sable: #f1e6d6;
     --encre: #2b2522; --gris: #6f655e; --ok: #2f7d4f; --ko: #b3261e; --ligne: #e2d6c6;
+    --accent: var(--brique); --accent-fonce: var(--brique-fonce);
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -17,14 +18,26 @@
   header svg { flex: none; }
   header .marque { font-weight: 700; font-size: 18px; letter-spacing: .2px; }
   header .sous { font-size: 12px; opacity: .85; }
+  #burger { margin-left: auto; background: none; border: 0; color: #fff; font-size: 26px; line-height: 1; padding: 4px 6px; cursor: pointer; }
   .usager { background: var(--brique-fonce); color: #fff; font-size: 13px; padding: 6px 16px; }
+  #menu { background: #fff; border-bottom: 1px solid var(--ligne); box-shadow: 0 6px 14px rgba(0,0,0,.12); }
+  #menu a { display: block; padding: 13px 18px; border-top: 1px solid var(--sable); color: var(--encre); text-decoration: none; }
+  .badge { background: var(--ko); color: #fff; border-radius: 10px; font-size: 12px; padding: 1px 7px; margin-left: 6px; }
   main { max-width: 560px; margin: 0 auto; padding: 16px; }
   .fil { font-size: 12px; color: var(--gris); margin-bottom: 6px; }
+  .fil a { color: var(--gris); }
   h1 { font-size: 20px; margin: 0 0 4px; }
   .etape { font-size: 13px; color: var(--gris); margin-bottom: 14px; }
   .bandeau { background: var(--sable); border-left: 4px solid var(--brique); padding: 10px 12px; font-size: 14px; margin-bottom: 16px; }
   .bandeau a { color: var(--brique-fonce); font-weight: 600; }
-  .piece { background: #fff; border: 1px solid var(--ligne); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .carte, .piece { background: #fff; border: 1px solid var(--ligne); border-radius: 10px; padding: 14px; margin-bottom: 12px; font-size: 14px; }
+  .carte strong { font-size: 15px; }
+  a.ligne, button.ligne { display: block; width: 100%; text-align: left; background: #fff; border: 1px solid var(--ligne); border-radius: 10px;
+                          padding: 14px; margin-bottom: 10px; color: var(--encre); text-decoration: none; font-size: 15px; cursor: pointer; }
+  a.bouton { display: inline-block; margin-top: 10px; padding: 9px 14px; background: var(--brique); color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; }
+  .msgnonlu { display: block; background: #fff; border: 1px solid var(--brique); border-radius: 10px; padding: 12px 14px; margin: 12px 0 18px;
+              color: var(--brique-fonce); font-weight: 600; text-decoration: none; }
+  h2.sec { font-size: 15px; color: var(--gris); margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
   .piece h2 { font-size: 16px; margin: 0 0 2px; }
   .piece .req { color: var(--ko); }
   .piece .detail { font-size: 13px; color: var(--gris); margin-bottom: 10px; }
@@ -44,16 +57,49 @@
                    border: 0; border-radius: 10px; margin-top: 6px; cursor: pointer; }
   button.envoyer:active { background: var(--brique-fonce); }
   .erreur-globale { color: var(--ko); font-size: 14px; margin-top: 10px; display: none; }
-  .succes { display: none; text-align: center; padding-top: 10px; }
-  .succes .rond { width: 84px; height: 84px; border-radius: 50%; background: var(--ok); margin: 10px auto 14px;
-                  display: flex; align-items: center; justify-content: center; }
-  .succes h1 { color: var(--ok); font-size: 22px; }
+  .certif { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin: 14px 0 4px; }
+  .certif input { width: 20px; height: 20px; flex: none; margin-top: 1px; }
+  #vue-succes { text-align: center; padding-top: 10px; }
+  .rond { width: 84px; height: 84px; border-radius: 50%; background: var(--ok); margin: 10px auto 14px;
+          display: flex; align-items: center; justify-content: center; }
+  #vue-succes h1 { color: var(--ok); font-size: 22px; }
+  .appel { background: #fff4cc; border: 2px solid #e0a800; border-radius: 10px; padding: 12px; margin: 14px 0; font-size: 15px; }
+  .appel strong { font-size: 18px; display: block; margin-bottom: 2px; }
   .recap { text-align: left; background: #fff; border: 1px solid var(--ligne); border-radius: 10px; padding: 12px 14px; margin: 14px 0; font-size: 14px; }
-  .recap div { padding: 6px 0; border-bottom: 1px solid var(--sable); }
+  .recap div { padding: 6px 0; border-bottom: 1px solid var(--sable); word-break: break-all; }
   .recap div:last-child { border-bottom: 0; }
   .recap a { color: var(--brique-fonce); font-weight: 600; }
   .lien-bas { background: none; border: 0; color: var(--brique-fonce); text-decoration: underline; font-size: 14px; cursor: pointer; }
   footer { font-size: 11px; color: var(--gris); text-align: center; padding: 18px 16px 28px; }
+  /* Pièges communs (src/pieges.css) – couleurs prises dans --accent et --accent-fonce de chaque site */
+  [hidden] { display: none !important; }
+  .pg-fond { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+  .pg-boite { background: #fff; color: #222; width: 100%; max-width: 560px; padding: 18px 18px 20px; border-radius: 14px 14px 0 0;
+              font-size: 14px; line-height: 1.45; position: relative; max-height: 92vh; overflow: auto; }
+  @media (min-width: 700px) { .pg-fond { align-items: center; } .pg-boite { border-radius: 10px; } }
+  .pg-boite h2 { font-size: 18px; margin: 4px 0 8px; }
+  .pg-tout { display: block; width: 100%; padding: 13px; margin-top: 12px; border: 0; border-radius: 8px; background: var(--accent);
+             color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .pg-second { display: block; width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #bbb; border-radius: 8px; background: #fff;
+               color: #444; font-size: 14px; cursor: pointer; }
+  .pg-sans { background: none; border: 0; padding: 2px; color: #999; font-size: 11.5px; cursor: pointer; float: right; }
+  .pg-choix label { display: block; padding: 6px 0; border-bottom: 1px solid #eee; }
+  .pg-petit { font-size: 10.5px; color: #999; }
+  .pg-pub { position: relative; margin: 0 0 14px; padding: 12px 12px 12px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+            background: linear-gradient(120deg, #fff3c4, #ffd9e8); border: 1px solid #f0c36a; color: #3a2a00; }
+  .pg-mention { position: absolute; top: 3px; right: 6px; font-size: 9.5px; color: #8a7a55; }
+  .pg-pubbtn { display: inline-block; margin-top: 8px; padding: 6px 12px; background: #e8432e; color: #fff; border-radius: 20px; font-weight: 700; font-size: 13px; }
+  .pg-marque { margin-left: 10px; font-size: 12px; font-weight: 700; color: #b0302a; }
+  .pg-fauxhaut { margin: -18px -18px 14px; padding: 12px 18px; background: #e8432e; color: #fff; font-weight: 800; font-size: 18px; border-radius: inherit; }
+  .pg-fauxhaut small { font-weight: 400; font-size: 12px; opacity: .85; }
+  .pg-faux .pg-tout { background: #e8432e; }
+  .pg-stop { color: #b3261e; font-size: 24px !important; }
+  .pg-q { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; color: var(--accent-fonce);
+          font-size: 12px; font-weight: 700; line-height: 1; padding: 0; cursor: pointer; vertical-align: 1px; margin-left: 4px; }
+  .pg-rep { display: block; margin: 6px 0 4px; padding: 7px 9px; background: #f4f4f4; border-radius: 6px; font-size: 13px; color: #333; font-weight: 400; }
+  .bilan { font-size: 11.5px; color: #999; margin-top: 14px; }
+  @media (max-width: 699px) { .pg-faux { height: 100%; max-height: 100%; border-radius: 0; } }
+
 </style>
 </head>
 <body>
@@ -65,16 +111,81 @@
     <circle cx="27" cy="13" r="4" fill="#e9a23b"/>
   </svg>
   <div><div class="marque">Armor Retraite</div><div class="sous">Votre caisse de retraite</div></div>
+  <button id="burger" aria-label="Menu">☰</button>
 </header>
 <div class="usager">Connectée : Mme Marie LE GOFF</div>
+<nav id="menu" hidden>
+  <a href="#accueil">Accueil</a>
+  <a href="#paiements">Mes paiements</a>
+  <a href="#attestations">Mes attestations</a>
+  <a href="#demarches">Mes démarches</a>
+  <a href="#messages">Mes messages <span class="badge">1</span></a>
+</nav>
 
-<main id="formulaire">
-  <div class="fil">Mes démarches › Aide au maintien à domicile</div>
-  <h1>Demande d'aide ménagère</h1>
-  <div class="etape">Étape 3 sur 3 – Pièces justificatives</div>
+<main>
+<section class="vue" id="vue-accueil">
+  <h1>Bonjour Madame LE GOFF</h1>
+  <a class="msgnonlu" href="#messages">✉ Vous avez 1 nouveau message</a>
+  <h2 class="sec">Actualités</h2>
+  <div class="carte"><strong>Revalorisation des pensions</strong><br>Les retraites de base augmentent au 1er janvier. Le nouveau montant figurera sur votre relevé de février.</div>
+  <div class="carte"><strong>Appels et SMS frauduleux</strong><br>Armor Retraite ne vous demandera jamais vos coordonnées bancaires par téléphone ou par SMS.</div>
+  <div class="carte"><strong>Bien vieillir chez soi</strong><br>Ateliers mémoire et équilibre gratuits près de chez vous. Renseignez-vous auprès de votre agence.</div>
+</section>
+
+<section class="vue" id="vue-messages" hidden>
+  <div class="fil"><a href="#accueil">Accueil</a> › Mes messages</div>
+  <h1>Mes messages</h1>
+  <div class="carte"><strong>Votre demande d'aide ménagère</strong><br><span style="color:var(--gris);font-size:13px">Reçu le 18/11/2026</span>
+    <p>Madame,</p>
+    <p>Votre demande d'aide ménagère du 03/11/2026 est incomplète. Pour qu'elle soit étudiée, merci de déposer
+    les pièces justificatives demandées depuis votre espace personnel, rubrique « Mes démarches ».</p>
+    <p>Sans réponse de votre part sous 30 jours, votre demande sera classée sans suite.</p>
+    <p>Le service Action sociale</p></div>
+</section>
+
+<section class="vue" id="vue-paiements" hidden>
+  <h1>Mes paiements</h1>
+  <div class="carte"><strong>Pension de retraite de base</strong><br>Dernier versement : 9 novembre 2026<br>Prochain versement : 9 décembre 2026</div>
+</section>
+
+<section class="vue" id="vue-attestations" hidden>
+  <h1>Mes attestations</h1>
+  <div class="carte"><strong>Attestation de paiement 2025</strong><br>Disponible en téléchargement depuis un ordinateur.</div>
+  <div class="carte"><strong>Attestation fiscale 2025</strong><br>Envoyée par courrier le 12/02/2026.</div>
+</section>
+
+<section class="vue" id="vue-demarches" hidden>
+  <h1>Mes démarches</h1>
+  <p style="font-size:14px;color:var(--gris)">Que souhaitez-vous faire ?</p>
+  <a class="ligne" href="#nouvelle">Faire une nouvelle demande ›</a>
+  <a class="ligne" href="#suivi">Suivre mes demandes ›</a>
+</section>
+
+<section class="vue" id="vue-nouvelle" hidden>
+  <div class="fil"><a href="#demarches">Mes démarches</a> › Nouvelle demande</div>
+  <h1>Faire une nouvelle demande</h1>
+  <button class="ligne" data-nv="1">Aide ménagère à domicile ›</button>
+  <button class="ligne" data-nv="0">Aide au retour à domicile après hospitalisation ›</button>
+  <button class="ligne" data-nv="0">Ateliers « Bien vieillir » ›</button>
+  <div class="bandeau" id="nvMsg" hidden></div>
+</section>
+
+<section class="vue" id="vue-suivi" hidden>
+  <div class="fil"><a href="#demarches">Mes démarches</a> › Suivre mes demandes</div>
+  <h1>Suivre mes demandes</h1>
+  <div class="carte"><strong>Aide ménagère à domicile</strong><br>Déposée le 03/11/2026<br>
+    Statut : <span style="color:var(--ko);font-weight:600">Incomplète – pièces à fournir</span><br>
+    <a class="bouton" href="#depot">Compléter mon dossier</a></div>
+  <div class="carte"><strong>Attestation de paiement 2025</strong><br>Demandée le 12/02/2026<br>Statut : Traitée</div>
+</section>
+
+<section class="vue" id="vue-depot" hidden>
+  <div class="fil"><a href="#demarches">Mes démarches</a> › <a href="#suivi">Suivre mes demandes</a> › Aide ménagère</div>
+  <h1>Compléter ma demande d'aide ménagère</h1>
+  <div class="etape">Étape 3 sur 4 – Pièces justificatives</div>
 
   <div class="bandeau">
-    Ajoutez les 3 pièces demandées, puis envoyez votre demande.
+    Ajoutez les 3 pièces demandées.
     <a href="#" id="lienAide">Formats acceptés</a>
   </div>
 
@@ -89,20 +200,36 @@
     </ul>
   </div>
 
+  <div id="emplPub"></div>
   <div id="pieces"></div>
 
-  <button class="envoyer" id="envoyer">Envoyer ma demande</button>
+  <button class="envoyer" id="continuer">Continuer</button>
   <div class="erreur-globale" id="erreurGlobale"></div>
-</main>
+</section>
 
-<main class="succes" id="succes">
+<section class="vue" id="vue-recap" hidden>
+  <div class="fil"><a href="#demarches">Mes démarches</a> › <a href="#suivi">Suivre mes demandes</a> › Aide ménagère</div>
+  <h1>Vérifiez avant d'envoyer</h1>
+  <div class="etape">Étape 4 sur 4 – Vérification et envoi</div>
+  <div class="recap" id="recapAvant"></div>
+  <label class="certif"><input type="checkbox" id="certif">
+    <span>Je certifie sur l'honneur l'exactitude des informations et des pièces transmises.</span></label>
+  <button class="envoyer" id="confirmer">Confirmer l'envoi</button>
+  <div class="erreur-globale" id="erreurCertif">Vous devez cocher la case de certification pour envoyer votre demande.</div>
+  <p style="text-align:center"><a href="#depot" style="color:var(--brique-fonce);font-size:14px">‹ Modifier mes pièces</a></p>
+</section>
+
+<section class="vue" id="vue-succes" hidden>
   <div class="rond"><svg width="46" height="46" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <h1>Demande transmise</h1>
   <div>Demande d'aide ménagère de Mme Marie LE GOFF</div>
   <div style="font-size:14px;color:var(--gris)">Envoyée le <span id="date"></span></div>
+  <div class="appel"><strong>Appelez le professeur</strong>Montrez-lui cet écran avant de passer à la suite. Ne fermez pas cette page.</div>
   <div class="recap" id="recap"></div>
   <div style="font-size:14px">Vous recevrez une réponse par courrier sous 4 à 6 semaines.</div>
+  <div class="bilan" id="bilan"></div>
   <p><button class="lien-bas" id="recommencer">Recommencer l'exercice</button></p>
+</section>
 </main>
 
 <footer>Site fictif – exercice pédagogique. Aucun fichier n'est envoyé : la vérification se fait sur ce téléphone.</footer>
@@ -209,16 +336,112 @@ const Depot = (() => {
   return { analyser, mo, maintenant };
 })();
 
+/* Pièges « de terrain » communs aux deux simulateurs : cookies, fausse publicité, aides « ? », navigation.
+   Rien n'est envoyé : tout reste dans la page. Le bilan (choix cookies, clic sur la pub) s'affiche
+   sur l'écran final pour que le professeur en parle avec l'élève. */
+const Pieges = (() => {
+  const bilan = { cookies: 'aucun choix', pub: 'non cliquée' };
+  const el = h => { const d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstChild; };
+
+  function cookies(site) {
+    const m = el(`<div class="pg-fond"><div class="pg-boite pg-cookies" role="dialog">
+      <button class="pg-sans" data-r="refusés">Continuer sans accepter →</button>
+      <h2>Votre vie privée nous importe</h2>
+      <p>${site} et ses <u>148 partenaires</u> utilisent des cookies et traceurs pour mesurer l'audience,
+      personnaliser les contenus et vous proposer des publicités adaptées à vos centres d'intérêt.</p>
+      <div class="pg-choix" hidden>
+        <label><input type="checkbox" checked> Mesure d'audience</label>
+        <label><input type="checkbox" checked> Publicité personnalisée</label>
+        <label><input type="checkbox" checked> Partage avec les réseaux sociaux</label>
+        <button class="pg-second" data-r="perso">Enregistrer mes choix</button>
+      </div>
+      <button class="pg-tout" data-r="tout accepté">Tout accepter</button>
+      <button class="pg-second pg-perso">Personnaliser</button>
+    </div></div>`);
+    m.onclick = e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.classList.contains('pg-perso')) { m.querySelector('.pg-choix').hidden = false; b.hidden = true; return; }
+      let r = b.dataset.r;
+      if (r === 'perso') { const n = m.querySelectorAll('input:checked').length; r = n ? `${n} sur 3 acceptés` : 'refusés'; }
+      bilan.cookies = r; m.remove();
+    };
+    document.body.appendChild(m);
+  }
+
+  function pub(cible, site) {
+    const p = el(`<div class="pg-pub" role="button"><span class="pg-mention">Annonce</span>
+      <strong>Fichier refusé ?</strong> Convertissez et compressez vos documents en PDF conforme en 1 clic.
+      <span class="pg-pubbtn">Convertir gratuitement</span><span class="pg-marque">PdfMagik</span></div>`);
+    p.onclick = () => {
+      bilan.pub = 'ouverte puis fermée';
+      const f = el(`<div class="pg-fond"><div class="pg-boite pg-faux">
+        <div class="pg-fauxhaut">PdfMagik <small>convertisseur gratuit</small></div>
+        <h2>Tous vos fichiers en PDF</h2>
+        <p>JPG, HEIC, PNG, Word → PDF. Rapide, gratuit, sans inscription.</p>
+        <button class="pg-tout pg-dep">Déposer mes fichiers</button>
+        <p class="pg-petit">En utilisant ce service, vous acceptez nos conditions générales, dont la conservation
+        de vos fichiers et leur transmission à nos partenaires.</p>
+        <button class="pg-sans pg-ret">‹ Retour</button></div></div>`);
+      f.onclick = e => {
+        if (e.target.closest('.pg-ret')) f.remove();
+        if (e.target.closest('.pg-dep')) {
+          bilan.pub = 'fichiers presque envoyés';
+          f.firstChild.innerHTML = `<h2 class="pg-stop">Stop !</h2>
+            <p>Vous alliez confier les papiers de Mme Le Goff (avis d'imposition, carte d'identité…) à une société inconnue.</p>
+            <p>Ce site était une <strong>publicité</strong> : il n'a rien à voir avec ${site}. Les petites lignes
+            disaient qu'il conserve vos fichiers et les transmet à des partenaires.</p>
+            <p><strong>Une démarche se fait sur le site de l'organisme, et nulle part ailleurs.</strong></p>
+            <p class="pg-petit">(Exercice : rien n'a été envoyé.)</p>
+            <button class="pg-tout pg-ret">Revenir à ma démarche</button>`;
+        }
+      };
+      document.body.appendChild(f);
+    };
+    cible.appendChild(p);
+  }
+
+  // Bouton « ? » : <button class="pg-q" data-rep="id">?</button> ouvre/ferme l'élément id
+  document.addEventListener('click', e => {
+    const q = e.target.closest('.pg-q');
+    if (!q) return;
+    e.preventDefault();
+    const r = document.getElementById(q.dataset.rep);
+    r.hidden = !r.hidden;
+  });
+
+  // Navigation par rubriques : <section class="vue" id="vue-xxx">, lien href="#xxx"
+  function rubriques(defaut, apres) {
+    const montrer = () => {
+      const h = location.hash.slice(1);
+      const v = document.getElementById('vue-' + h) ? h : defaut;
+      document.querySelectorAll('.vue').forEach(s => { s.hidden = s.id !== 'vue-' + v; });
+      window.scrollTo(0, 0);
+      if (apres) apres(v);
+    };
+    addEventListener('hashchange', montrer);
+    montrer();
+  }
+
+  const recommencer = () => location.replace(location.pathname + location.search);
+  const resume = () => `Cookies : ${bilan.cookies} · Publicité : ${bilan.pub}`;
+  return { cookies, pub, rubriques, recommencer, resume };
+})();
+
 const MAX = 2 * 1024 * 1024;
 const PIECES = [
-  { id: 'avis', titre: "Avis d'imposition", detail: "Dernier avis d'impôt sur le revenu, toutes les pages.",
-    pages: n => n >= 2 ? null : "Document incomplet : toutes les pages sont demandées." },
-  { id: 'identite', titre: "Pièce d'identité", detail: "Carte d'identité ou passeport en cours de validité, recto et verso.",
+  { id: 'identite', titre: "Pièce d'identité en cours de validité", detail: "Recto-verso.",
+    aide: "« En cours de validité » : pas périmée (regardez la date de fin de validité). « Recto-verso » : les deux faces.",
     pages: n => n <= 2 ? null : "Document non conforme : 2 pages maximum." },
-  { id: 'domicile', titre: "Justificatif de domicile", detail: "Facture de moins de 3 mois (électricité, eau, téléphone…).",
-    pages: n => null }
+  { id: 'domicile', titre: "Justificatif de domicile de moins de 3 mois", detail: "Au nom du demandeur.",
+    aide: "Un papier qui prouve l'adresse de la personne : facture d'eau, d'électricité, de téléphone, quittance de loyer… datée de moins de 3 mois.",
+    pages: n => null },
+  { id: 'avis', titre: "Justificatif de ressources N-1", detail: "Document intégral.",
+    aide: "Les « ressources », ce sont les revenus. « N-1 » : l'année précédente. Ici, c'est le dernier avis d'impôt sur le revenu. « Intégral » : toutes les pages.",
+    pages: n => n >= 2 ? null : "Document incomplet : toutes les pages sont demandées." }
 ];
 const valides = {};
+let envoye = false;
 
 function verifier(info, p) {
   if (info.format !== 'pdf') return "Format non accepté.";
@@ -233,7 +456,8 @@ const zone = document.getElementById('pieces');
 PIECES.forEach(p => {
   const d = document.createElement('div');
   d.className = 'piece';
-  d.innerHTML = `<h2>${p.titre} <span class="req">*</span></h2><div class="detail">${p.detail}</div>
+  d.innerHTML = `<h2>${p.titre} <span class="req">*</span> <button class="pg-q" data-rep="q_${p.id}" aria-label="Aide">?</button></h2>
+    <span class="pg-rep" id="q_${p.id}" hidden>${p.aide}</span><div class="detail">${p.detail}</div>
     <label class="choisir"><input type="file" id="f_${p.id}"><span>Ajouter un fichier</span></label>
     <div class="etat" id="e_${p.id}"></div>`;
   zone.appendChild(d);
@@ -252,13 +476,12 @@ PIECES.forEach(p => {
       etat.className = 'etat ko';
       etat.innerHTML = `✖ ${err} <a href="#" class="voirAide">Formats acceptés</a>${fic}`;
       etat.querySelector('.voirAide').onclick = ouvrirAide;
-      label.textContent = 'Remplacer le fichier';
     } else {
       valides[p.id] = { info, file: f };
       etat.className = 'etat ok';
       etat.innerHTML = `✔ Fichier ajouté${fic}`;
-      label.textContent = 'Remplacer le fichier';
     }
+    label.textContent = 'Remplacer le fichier';
     input.value = '';
     document.getElementById('erreurGlobale').style.display = 'none';
   });
@@ -276,8 +499,20 @@ document.getElementById('lienAide').onclick = e => {
 };
 
 function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+const complet = () => PIECES.every(p => valides[p.id]);
 
-document.getElementById('envoyer').onclick = () => {
+const menu = document.getElementById('menu');
+document.getElementById('burger').onclick = () => { menu.hidden = !menu.hidden; };
+menu.onclick = () => { menu.hidden = true; };
+document.querySelectorAll('[data-nv]').forEach(b => b.onclick = () => {
+  const m = document.getElementById('nvMsg');
+  m.hidden = false;
+  m.innerHTML = b.dataset.nv === '1'
+    ? "Vous avez déjà une demande d'aide ménagère en cours. Pour la compléter, allez dans <a href=\"#suivi\">Suivre mes demandes</a>."
+    : "Cette démarche n'est pas disponible en ligne. Contactez votre agence.";
+});
+
+document.getElementById('continuer').onclick = () => {
   const manquantes = PIECES.filter(p => !valides[p.id]);
   const g = document.getElementById('erreurGlobale');
   if (manquantes.length) {
@@ -285,19 +520,34 @@ document.getElementById('envoyer').onclick = () => {
     g.textContent = 'Pièce manquante ou non conforme : ' + manquantes.map(p => p.titre).join(', ') + '.';
     return;
   }
-  const recap = document.getElementById('recap');
-  recap.innerHTML = PIECES.map(p => {
+  location.hash = 'recap';
+};
+
+document.getElementById('confirmer').onclick = () => {
+  if (!document.getElementById('certif').checked) { document.getElementById('erreurCertif').style.display = 'block'; return; }
+  document.getElementById('recap').innerHTML = PIECES.map(p => {
     const v = valides[p.id];
     const url = URL.createObjectURL(v.file);
     const pages = v.info.pages ? `${v.info.pages} page${v.info.pages > 1 ? 's' : ''}` : 'pages non vérifiées';
     return `<div><strong>${p.titre}</strong><br>${escapeHtml(v.info.nom)} – ${Depot.mo(v.info.taille)} – ${pages}<br><a href="${url}" target="_blank" rel="noopener">Voir le document</a></div>`;
   }).join('');
   document.getElementById('date').textContent = Depot.maintenant();
-  document.getElementById('formulaire').style.display = 'none';
-  document.getElementById('succes').style.display = 'block';
-  window.scrollTo(0, 0);
+  document.getElementById('bilan').textContent = Pieges.resume();
+  envoye = true;
+  location.hash = 'succes';
 };
-document.getElementById('recommencer').onclick = () => location.reload();
+document.getElementById('certif').onchange = () => { document.getElementById('erreurCertif').style.display = 'none'; };
+document.getElementById('recommencer').onclick = Pieges.recommencer;
+
+Pieges.rubriques('accueil', v => {
+  menu.hidden = true;
+  if (v === 'recap' && !complet()) location.hash = 'depot';
+  else if (v === 'succes' && !envoye) location.hash = 'depot';
+  else if (v === 'recap') document.getElementById('recapAvant').innerHTML = PIECES.map(p =>
+    `<div><strong>${p.titre}</strong><br>${escapeHtml(valides[p.id].info.nom)}</div>`).join('');
+});
+Pieges.pub(document.getElementById('emplPub'), 'Armor Retraite');
+Pieges.cookies('Armor Retraite');
 </script>
 </body>
 </html>

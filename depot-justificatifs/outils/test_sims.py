@@ -73,6 +73,19 @@ async def lire(page, sel):
     return (await page.text_content(sel)).strip()
 
 
+async def visible(page, sel):
+    try:
+        await page.wait_for_selector(sel, state='visible', timeout=3000)
+        return True
+    except Exception:
+        return False
+
+
+def note(ok, texte):
+    print(('OK  ' if ok else 'ÉCHEC'), texte)
+    return 0 if ok else 1
+
+
 async def main():
     echecs = 0
     with tempfile.TemporaryDirectory() as d:
@@ -80,35 +93,85 @@ async def main():
         fabriquer(t)
         async with async_playwright() as p:
             b = await p.chromium.launch(executable_path=CHROME)
+
+            # ---------- Téléphone ----------
             tel = await b.new_context(viewport={'width': 390, 'height': 844},
                                       user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile')
             pg = await tel.new_page()
             await pg.goto((RACINE / 'telephone.html').as_uri())
+            echecs += note(await pg.is_visible('.pg-cookies'), 'téléphone : bandeau cookies à l\'arrivée')
+            await pg.click('.pg-cookies .pg-sans')
+            echecs += note(await pg.is_visible('#vue-accueil') and not await pg.is_visible('#vue-depot'),
+                           'téléphone : arrivée sur l\'accueil, pas sur le dépôt')
+            await pg.click('#burger')
+            await pg.click('#menu a[href="#demarches"]')
+            await pg.click('a[href="#nouvelle"]')
+            await pg.click('[data-nv="1"]')
+            echecs += note('déjà une demande' in await pg.text_content('#nvMsg'), 'téléphone : nouvelle demande -> « déjà une demande en cours »')
+            await pg.click('#nvMsg a')
+            await pg.click('text=Compléter mon dossier')
+            echecs += note(await visible(pg, '#vue-depot'), 'téléphone : chemin Mes démarches › Suivre › Compléter')
+            await pg.click('.pg-pub')
+            await pg.click('.pg-dep')
+            echecs += note('Stop' in await pg.text_content('.pg-boite'), 'téléphone : fausse pub -> écran « Stop ! »')
+            await pg.click('.pg-boite .pg-ret')
+            await pg.click('#continuer')
+            echecs += note((await pg.text_content('#erreurGlobale')).startswith('Pièce manquante'), 'téléphone : Continuer sans pièces refusé')
             for slot, f, attendu in CAS_TEL:
                 await pg.set_input_files(f'#f_{slot}', str(t / f))
                 txt = await lire(pg, f'#e_{slot}')
-                ok = txt.startswith(attendu); echecs += not ok
-                print(('OK  ' if ok else 'ÉCHEC'), 'téléphone', slot, f, '->', txt.splitlines()[0])
-            await pg.click('#envoyer')
-            ok = await pg.is_visible('#succes'); echecs += not ok
-            print(('OK  ' if ok else 'ÉCHEC'), 'téléphone : écran « Demande transmise »')
+                echecs += note(txt.startswith(attendu), f'téléphone {slot} {f} -> {txt.splitlines()[0]}')
+            await pg.click('#continuer')
+            echecs += note(await visible(pg, '#vue-recap') and not await pg.is_visible('#vue-succes'),
+                           'téléphone : « Continuer » mène au récapitulatif, pas encore envoyé')
+            await pg.click('#confirmer')
+            echecs += note(await pg.is_visible('#erreurCertif'), 'téléphone : envoi refusé sans la case de certification')
+            await pg.check('#certif')
+            await pg.click('#confirmer')
+            echecs += note(await visible(pg, '#vue-succes') and await pg.is_visible('.appel'),
+                           'téléphone : écran « Demande transmise » avec « Appelez le professeur »')
+            bil = await pg.text_content('#bilan')
+            echecs += note(bil == 'Cookies : refusés · Publicité : fichiers presque envoyés', f'téléphone : bilan « {bil} »')
 
+            # ---------- Ordinateur ----------
             pc_ctx = await b.new_context(viewport={'width': 1280, 'height': 800})
             pc = await pc_ctx.new_page()
             await pc.goto((RACINE / 'ordinateur.html').as_uri())
+            await pc.click('.pg-cookies .pg-tout')
+            echecs += note(await pc.is_visible('#vue-accueil'), 'ordinateur : arrivée sur l\'accueil')
+            await pc.click('nav a[href="#demandes"]')
+            await pc.click('text=Reprendre')
+            echecs += note(await visible(pc, '#formulaire'), 'ordinateur : Mes demandes › Reprendre')
+            await pc.set_input_files('#autre', str(t / 'LEGOFF_avis-imposition.pdf'))
+            txt = await lire(pc, '#msgAutre')
+            echecs += note(txt.startswith('Fichier ajouté'), 'ordinateur : bon fichier dans « Autre document » accepté')
+            await pc.click('#valider')
+            txt = (await pc.text_content('#alerte')).strip()
+            echecs += note(txt.startswith('Pièce obligatoire manquante'), f'ordinateur : mauvais emplacement -> {txt}')
             for f, attendu in CAS_PC:
                 await pc.set_input_files('#fichier', str(t / f))
                 txt = await lire(pc, '#msg')
-                ok = txt.startswith(attendu); echecs += not ok
-                print(('OK  ' if ok else 'ÉCHEC'), 'ordinateur', f, '->', txt.splitlines()[0])
+                if attendu == 'Fichier conforme':
+                    ok = txt.startswith(attendu) and not await pc.is_visible('#alerte')
+                else:
+                    txt = (await pc.text_content('#alerte')).strip()
+                    ok = txt.startswith(attendu) and (await pc.text_content('#msg')).startswith('✖ Fichier refusé')
+                echecs += note(ok, f'ordinateur {f} -> {txt.splitlines()[0]}')
             await pc.click('#valider')
-            ok = await pc.is_visible('#succes'); echecs += not ok
-            print(('OK  ' if ok else 'ÉCHEC'), 'ordinateur : écran « Pièce transmise »')
+            echecs += note(await pc.is_visible('#confirmation') and not await pc.is_visible('#succes'),
+                           'ordinateur : « Continuer » mène à la confirmation')
+            await pc.click('#transmettre')
+            echecs += note(await pc.is_visible('#alerteCertif'), 'ordinateur : transmission refusée sans certification')
+            await pc.check('#certif')
+            await pc.click('#transmettre')
+            echecs += note(await pc.is_visible('#succes'), 'ordinateur : écran « Demande transmise »')
+            bil = await pc.text_content('#bilan')
+            echecs += note(bil == 'Cookies : tout accepté · Publicité : non cliquée', f'ordinateur : bilan « {bil} »')
 
             m = await tel.new_page()
             await m.goto((RACINE / 'ordinateur.html').as_uri())
-            ok = await m.is_visible('.mobile'); echecs += not ok
-            print(('OK  ' if ok else 'ÉCHEC'), 'ordinateur ouvert sur téléphone : message « disponible que sur ordinateur »')
+            echecs += note(await m.is_visible('.mobile') and not await m.is_visible('.pg-cookies'),
+                           'ordinateur ouvert sur téléphone : message « disponible que sur ordinateur »')
             await b.close()
     print(f'\n{echecs} échec(s)')
     sys.exit(1 if echecs else 0)
