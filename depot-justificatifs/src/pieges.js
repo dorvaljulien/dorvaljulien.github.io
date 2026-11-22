@@ -27,8 +27,20 @@ const Pieges = (() => {
       let r = b.dataset.r;
       if (r === 'perso') { const n = m.querySelectorAll('input:checked').length; r = n ? `${n} sur 3 acceptés` : 'refusés'; }
       bilan.cookies = r; m.remove();
+      if (r === 'tout accepté') avertirCookies(site);
     };
     document.body.appendChild(m);
+  }
+
+  // Petit avertissement pédagogique après « Tout accepter »
+  function avertirCookies(site) {
+    const a = el(`<div class="pg-avert" role="status"><button class="pg-sans" aria-label="Fermer">✕</button>
+      <strong>⚠ Vous avez tout accepté.</strong> ${site} et ses 148 partenaires peuvent maintenant suivre ce que
+      vous faites sur internet, pour vous afficher de la publicité ciblée. Sur l'appareil de quelqu'un d'autre,
+      vous l'avez fait en son nom. Le bon réflexe : « Continuer sans accepter », ou « Personnaliser » et tout décocher.
+      <span class="pg-petit">(Exercice : rien n'est enregistré.)</span></div>`);
+    a.querySelector('button').onclick = () => a.remove();
+    document.body.appendChild(a);
   }
 
   function pub(cible, site) {

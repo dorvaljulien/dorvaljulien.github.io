@@ -101,6 +101,7 @@ async def main():
             await pg.goto((RACINE / 'telephone.html').as_uri())
             echecs += note(await pg.is_visible('.pg-cookies'), 'téléphone : bandeau cookies à l\'arrivée')
             await pg.click('.pg-cookies .pg-sans')
+            echecs += note(await pg.query_selector('.pg-avert') is None, 'téléphone : pas d\'avertissement si cookies refusés')
             echecs += note(await pg.is_visible('#vue-accueil') and not await pg.is_visible('#vue-depot'),
                            'téléphone : arrivée sur l\'accueil, pas sur le dépôt')
             await pg.click('#burger')
@@ -139,6 +140,8 @@ async def main():
             await pc.goto((RACINE / 'ordinateur.html').as_uri())
             await pc.click('.pg-cookies .pg-tout')
             echecs += note(await pc.is_visible('#vue-accueil'), 'ordinateur : arrivée sur l\'accueil')
+            echecs += note('Vous avez tout accepté' in (await pc.text_content('.pg-avert') or ''), 'ordinateur : avertissement après « Tout accepter »')
+            await pc.click('.pg-avert .pg-sans')
             await pc.click('nav a[href="#demandes"]')
             await pc.click('text=Reprendre')
             echecs += note(await visible(pc, '#formulaire'), 'ordinateur : Mes demandes › Reprendre')

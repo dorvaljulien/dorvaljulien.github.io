@@ -29,7 +29,7 @@ Les deux sites reproduisent ce qui fait trébucher sur les vrais sites. Ils ne d
 
 | Piège | Téléphone (Armor Retraite) | Ordinateur (Fonds Habitat Seniors) | Réflexe visé |
 | --- | --- | --- | --- |
-| Bandeau cookies qui masque la page | « Tout accepter » en gros, « Continuer sans accepter » en petit gris | Idem | Lire avant de cliquer |
+| Bandeau cookies qui masque la page | « Tout accepter » en gros, « Continuer sans accepter » en petit gris ; après « Tout accepter », un avertissement explique le problème | Idem | Lire avant de cliquer |
 | Dépôt enfoui dans l'espace personnel | Arrivée sur l'accueil. Chemin : ☰ › Mes démarches › Suivre mes demandes › Compléter mon dossier. « Faire une nouvelle demande » est une impasse (« déjà une demande en cours »). Un message non lu donne l'indice. | Arrivée sur l'accueil. Chemin : Mes demandes › Reprendre. « Mes documents » est une impasse. | Naviguer dans un espace personnel, lire ses messages |
 | Fausse publicité « PdfMagik » | Au-dessus des pièces | Sous les étapes, à gauche | Ne jamais confier des papiers à un site tiers |
 | Vocabulaire administratif | « Pièce d'identité en cours de validité », « Justificatif de domicile de moins de 3 mois », « Justificatif de ressources N-1 », dans un ordre différent de la pochette, avec une aide « ? » | « Justificatif de ressources N-1 », aide « ? » | Décoder le jargon |
