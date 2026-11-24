@@ -1,4 +1,4 @@
-/* Tests automatiques de la partie 3 (signature.html) et des codes d'accès (parties 2 et 3 ; la partie 1 est libre).
+/* Tests automatiques de la partie 3 (signature.html) et de l'accès libre aux trois parties (aucun code).
 
 Usage (depuis le dossier depot-justificatifs) :
     python3 outils/build.py
@@ -18,17 +18,6 @@ const { chromium } = require('playwright');
 const RACINE = path.resolve(__dirname, '..');
 const ORIGINAL = fs.readFileSync(path.join(RACINE, 'engagement_confidentialite_SPECIMEN.pdf'));
 const url = nom => 'file://' + path.join(RACINE, nom);
-
-// Les codes ne sont écrits nulle part dans le dépôt (public) : on les retrouve à partir de l'empreinte
-// inscrite dans chaque page, en essayant les 1000 valeurs possibles.
-const empreinte = s => { let x = 0x811c9dc5; for (const c of 'kerlann-' + s) x = Math.imul(x ^ c.charCodeAt(0), 0x01000193) >>> 0; return x.toString(16); };
-const codeDe = nom => {
-  const h = fs.readFileSync(path.join(RACINE, nom), 'utf8').match(/const CODE = '([0-9a-f]+)'/)[1];
-  for (let i = 0; i < 1000; i++) { const c = String(i).padStart(3, '0'); if (empreinte(c) === h) return c; }
-  throw new Error('code introuvable pour ' + nom);
-};
-const CODE2 = codeDe('ordinateur.html'), CODE3 = codeDe('signature.html');
-const autre = c => String((+c + 1) % 1000).padStart(3, '0');
 
 // ---------- Fabrication des PDF d'essai ----------
 const INK = '<< /Type /Annot /Subtype /Ink /Rect [60 300 300 380] /InkList [[70 320 120 360 180 330 250 370]] /C [0 0 0.6] /BS << /W 2 >> >>';
@@ -85,59 +74,35 @@ function fabriquer(t) {
 let echecs = 0;
 const note = (ok, txt) => { console.log((ok ? 'OK   ' : 'ÉCHEC') + ' ' + txt); if (!ok) echecs++; };
 
-async function code(page, valeur) {
-  await page.fill('#pgCode', valeur);
-  await page.click('.pg-code button');
-}
-
 (async () => {
   const t = fs.mkdtempSync(path.join(os.tmpdir(), 'sig-'));
   const avecImprime = fabriquer(t);
   const b = await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME } : {});
   const mobileUA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile';
 
-  // Partie 1 : pas de code, le bandeau cookies arrive directement
-  const ctel = await b.newContext({ viewport: { width: 390, height: 844 }, userAgent: mobileUA });
-  const pt = await ctel.newPage();
-  await pt.goto(url('telephone.html'));
-  note(!(await pt.isVisible('.pg-code')) && await pt.isVisible('.pg-cookies'), 'telephone.html : pas de code, bandeau cookies directement');
-  await ctel.close();
-
-  // Codes en clair absents des pages (Ctrl+U ne doit pas les montrer)
-  const hors64 = f => fs.readFileSync(path.join(RACINE, f), 'utf8').replace(/atob\('[^']*'\)/, '');
-  note(![CODE2, CODE3].some(c => (hors64('ordinateur.html') + hors64('signature.html') + hors64('index.html')).includes(c)),
-       'codes des parties 2 et 3 absents du code des pages');
-
-  // Code d'accès : ordinateur (partie 2)
-  for (const [nom, bon, ctxOpt] of [['ordinateur.html', CODE2, { viewport: { width: 1280, height: 800 } }]]) {
-    const ctx = await b.newContext(ctxOpt);
-    const p = await ctx.newPage();
-    await p.goto(url(nom));
-    note(await p.isVisible('.pg-code') && !(await p.isVisible('.pg-cookies')), `${nom} : code demandé avant tout, pas de bandeau cookies`);
-    await code(p, autre(bon));
-    note(await p.isVisible('.pg-codeko'), `${nom} : mauvais code refusé`);
-    await code(p, bon);
-    note(!(await p.isVisible('.pg-code')) && await p.isVisible('.pg-cookies'), `${nom} : bon code -> bandeau cookies`);
-    await p.reload();
-    note(!(await p.isVisible('.pg-code')) && await p.isVisible('.pg-cookies'), `${nom} : après rechargement, code non redemandé`);
-    await ctx.close();
+  // Aucune partie ne demande de code : le bandeau cookies arrive directement (parties 1 et 2)
+  for (const [nom, ctxOpt] of [['telephone.html', { viewport: { width: 390, height: 844 }, userAgent: mobileUA }],
+                               ['ordinateur.html', { viewport: { width: 1280, height: 800 } }]]) {
+    const c = await b.newContext(ctxOpt);
+    const pg = await c.newPage();
+    await pg.goto(url(nom));
+    note(!(await pg.isVisible('#pgCode')) && await pg.isVisible('.pg-cookies'), `${nom} : pas de code, bandeau cookies directement`);
+    await c.close();
   }
 
-  // Signature sur téléphone : message « ordinateur seulement », pas de code
+  // Signature sur téléphone : message « ordinateur seulement »
   const m = await b.newContext({ viewport: { width: 390, height: 844 }, userAgent: mobileUA });
   const pm = await m.newPage();
   await pm.goto(url('signature.html'));
-  note(await pm.isVisible('.mobile') && !(await pm.isVisible('.pg-code')), 'signature sur téléphone : « disponible que sur ordinateur »');
+  note(await pm.isVisible('.mobile') && !(await pm.isVisible('#pgCode')), 'signature sur téléphone : « disponible que sur ordinateur »');
   await m.close();
 
   // Signature sur ordinateur
   const ctx = await b.newContext({ viewport: { width: 1280, height: 800 }, acceptDownloads: true });
   const p = await ctx.newPage();
   await p.goto(url('signature.html'));
-  await code(p, CODE2);
-  note(await p.isVisible('.pg-codeko'), 'signature : le code de la partie 2 ne marche pas');
-  await code(p, CODE3);
-  note(!(await p.isVisible('.pg-code')) && !(await p.isVisible('.pg-cookies')), 'signature : bon code accepté, pas de bandeau cookies');
+  note(!(await p.isVisible('#pgCode')) && !(await p.isVisible('.pg-cookies')) && await p.isVisible('#telecharger'),
+       'signature : accès direct, ni code ni bandeau cookies');
 
   const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#telecharger')]);
   const recu = fs.readFileSync(await dl.path());

@@ -26,15 +26,9 @@ Les élèves jouent une aidante à domicile qui aide Mme Marie Le Goff, 78 ans (
 
 Le ménage des copies (fin de séance) se fait sans simulateur.
 
-## Les codes d'accès
+## Accès aux trois parties
 
-La partie 1 est libre. Les parties 2 et 3 demandent un code à 3 chiffres que seul le professeur connaît : il le donne à un binôme (ou le tape lui-même sur le poste) quand il a validé sa partie précédente. Personne ne prend donc d'avance sans être passé par le professeur.
-
-**Les codes ne sont écrits nulle part dans ce dépôt**, qui est public (et GitHub Pages publie aussi ce README). Ils sont dans le Drive privé du professeur : fichier « Codes d'accès – parties 2 et 3 » du dossier de la séance. Les pages ne contiennent qu'une empreinte du code : un « Afficher le code source » ne le montre pas.
-
-Le code est retenu tant que l'onglet reste ouvert : un rechargement ne le redemande pas.
-
-Pour changer un code : calculer la nouvelle empreinte avec la fonction `empreinte()` de `src/pieges.js` (dans la console du navigateur, par exemple), remplacer la constante `CODE` en tête du script de `src/ordinateur.src.html` ou `src/signature.src.html`, reconstruire, et mettre à jour le fichier du Drive.
+Les trois parties sont en accès libre : aucun code n'est demandé. Le professeur valide chaque partie en regardant l'écran de réussite (« Appelez le professeur »).
 
 ## Les pièges « de terrain »
 
@@ -125,7 +119,7 @@ depot-justificatifs/
 ├── qr-telephone.svg / .png       PRODUITS par outils/qr.py
 ├── src/
 │   ├── core.js                   lecture du fichier, détection du format, comptage des pages
-│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques, code d'accès (parties 2 et 3)
+│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques
 │   ├── telephone.src.html        page téléphone (règles, textes, charte), marqueur /*CORE*/
 │   ├── ordinateur.src.html       page ordinateur, marqueur /*CORE*/
 │   └── signature.src.html        page signature, marqueurs /*CORE*/ et /*ENGAGEMENT_B64*/
@@ -134,7 +128,7 @@ depot-justificatifs/
     ├── pochette.py               génère la pochette (reportlab)
     ├── qr.py                     génère les QR codes
     ├── test_sims.py              tests des parties 1 et 2 (Playwright, Python)
-    └── test_signature.js         tests de la partie 3 et des codes (Playwright, Node)
+    └── test_signature.js         tests de la partie 3 et de l'accès libre (Playwright, Node)
 ```
 
 Où changer quoi :

@@ -104,12 +104,6 @@
               box-shadow: 0 6px 18px rgba(0,0,0,.18); }
   .pg-avert .pg-sans { font-size: 16px; color: #8a7a55; margin: -4px -4px 0 6px; }
   .pg-avert .pg-petit { display: block; margin-top: 4px; }
-  .pg-verrou { background: rgba(0,0,0,.72); align-items: center; }
-  .pg-code { text-align: center; max-width: 380px; border-radius: 12px; margin: 16px; }
-  .pg-code input { width: 150px; font-size: 34px; letter-spacing: 12px; text-align: center; padding: 6px 0 6px 12px;
-                   border: 2px solid #999; border-radius: 8px; margin: 6px 0 2px; font-family: inherit; }
-  .pg-code input:focus { outline: none; border-color: var(--accent); }
-  .pg-codeko { color: #b3261e; font-size: 13.5px; margin-top: 8px; }
 
 </style>
 </head>
@@ -472,40 +466,11 @@ const Pieges = (() => {
     montrer();
   }
 
-  // Code à 3 chiffres que seul le professeur connaît : il le donne au binôme quand il a validé
-  // la partie précédente. La page ne contient qu'une empreinte du code (pas le code en clair).
-  // Le code est retenu pour l'onglet (sessionStorage) : un rechargement ne le redemande pas.
-  const empreinte = s => { let x = 0x811c9dc5; for (const c of 'kerlann-' + s) x = Math.imul(x ^ c.charCodeAt(0), 0x01000193) >>> 0; return x.toString(16); };
-  function code(attendu, partie, ensuite) {
-    const cle = 'code-' + attendu;
-    try { if (sessionStorage.getItem(cle) === '1') { ensuite(); return; } } catch (e) {}
-    const m = el(`<div class="pg-fond pg-verrou"><form class="pg-boite pg-code">
-      <div class="pg-petit">Exercice – ${partie}</div>
-      <h2>Code d'accès</h2>
-      <p>Faites valider la partie précédente par le professeur : il vous donnera le code à 3 chiffres.</p>
-      <input id="pgCode" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" aria-label="Code à 3 chiffres">
-      <div class="pg-codeko" hidden>Code incorrect.</div>
-      <button class="pg-tout" type="submit">Valider</button>
-    </form></div>`);
-    const champ = m.querySelector('input'), ko = m.querySelector('.pg-codeko');
-    m.querySelector('form').onsubmit = e => {
-      e.preventDefault();
-      if (empreinte(champ.value.trim()) !== attendu) { ko.hidden = false; champ.select(); return; }
-      try { sessionStorage.setItem(cle, '1'); } catch (e2) {}
-      m.remove();
-      ensuite();
-    };
-    champ.oninput = () => { ko.hidden = true; };
-    document.body.appendChild(m);
-    champ.focus();
-  }
-
   const recommencer = () => location.replace(location.pathname + location.search);
   const resume = () => `Cookies : ${bilan.cookies} · Publicité : ${bilan.pub}`;
-  return { cookies, pub, rubriques, recommencer, resume, code };
+  return { cookies, pub, rubriques, recommencer, resume };
 })();
 
-const CODE = '569936f3';   // empreinte du code de la partie 2 (code en clair : voir le README)
 const MAX = 2 * 1024 * 1024;
 const ATTENDU = 'LEGOFF_avis-imposition.pdf';
 if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
@@ -607,7 +572,7 @@ Pieges.rubriques('accueil', v => {
 });
 if (!document.body.classList.contains('sur-mobile')) {
   Pieges.pub(document.getElementById('emplPub'), 'le Fonds Habitat Seniors');
-  Pieges.code(CODE, 'partie 2', () => Pieges.cookies('Le Fonds Habitat Seniors'));
+  Pieges.cookies('Le Fonds Habitat Seniors');
 }
 </script>
 </body>
