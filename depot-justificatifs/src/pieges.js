@@ -97,7 +97,33 @@ const Pieges = (() => {
     montrer();
   }
 
+  // Code à 3 chiffres donné par le professeur pour ouvrir une partie : toute la classe démarre ensemble.
+  // Le code est retenu pour l'onglet (sessionStorage) : un rechargement ne le redemande pas.
+  function code(attendu, partie, ensuite) {
+    const cle = 'code-' + attendu;
+    try { if (sessionStorage.getItem(cle) === '1') { ensuite(); return; } } catch (e) {}
+    const m = el(`<div class="pg-fond pg-verrou"><form class="pg-boite pg-code">
+      <div class="pg-petit">Exercice – ${partie}</div>
+      <h2>Code d'accès</h2>
+      <p>Saisissez le code à 3 chiffres donné par le professeur.</p>
+      <input id="pgCode" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" aria-label="Code à 3 chiffres">
+      <div class="pg-codeko" hidden>Code incorrect. Attendez que le professeur affiche le code.</div>
+      <button class="pg-tout" type="submit">Valider</button>
+    </form></div>`);
+    const champ = m.querySelector('input'), ko = m.querySelector('.pg-codeko');
+    m.querySelector('form').onsubmit = e => {
+      e.preventDefault();
+      if (champ.value.trim() !== attendu) { ko.hidden = false; champ.select(); return; }
+      try { sessionStorage.setItem(cle, '1'); } catch (e2) {}
+      m.remove();
+      ensuite();
+    };
+    champ.oninput = () => { ko.hidden = true; };
+    document.body.appendChild(m);
+    champ.focus();
+  }
+
   const recommencer = () => location.replace(location.pathname + location.search);
   const resume = () => `Cookies : ${bilan.cookies} · Publicité : ${bilan.pub}`;
-  return { cookies, pub, rubriques, recommencer, resume };
+  return { cookies, pub, rubriques, recommencer, resume, code };
 })();

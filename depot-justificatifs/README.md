@@ -6,9 +6,11 @@ Ce dossier contient les ressources numériques d'une séance de démarches en li
 
 | Ressource | Adresse | Rôle |
 | --- | --- | --- |
-| Page professeur | `index.html` | QR code à projeter ; les liens professeur sont cachés derrière la petite flèche grise en bas à droite |
+| Page professeur | `index.html` | QR code et adresses à projeter, bouton « Afficher le code » pour chaque partie ; les liens professeur sont cachés derrière la petite flèche grise en bas à droite |
 | Simulateur téléphone | `telephone.html` | Site fictif « Armor Retraite » : 3 pièces à déposer depuis le téléphone |
 | Simulateur ordinateur | `ordinateur.html` | Site fictif « Fonds Habitat Seniors » : 1 pièce à déposer depuis le PC, nom de fichier imposé |
+| Simulateur signature | `signature.html` | Espace salariées fictif « Kerlann Services à Domicile » : télécharger l'engagement, le signer dans Edge, le renvoyer |
+| Engagement | `engagement_confidentialite_SPECIMEN.pdf` | Le PDF à signer de la partie 3 (aussi inclus dans `signature.html`) |
 | Pochette | `pochette_LeGoff_SPECIMEN.pdf` | Faux documents à imprimer, une pochette par binôme (4 pages A4) |
 | QR code | `qr-telephone.svg`, `qr-telephone.png` | Vers `telephone.html` |
 
@@ -20,6 +22,21 @@ Les élèves jouent une aidante à domicile qui aide Mme Marie Le Goff, 78 ans (
 
 1. **À domicile, sur téléphone.** Demande d'aide ménagère à sa caisse de retraite. Les élèves numérisent trois papiers avec le téléphone et les déposent sur `telephone.html`, ouvert par QR code. Quand la demande est transmise, l'écran leur demande d'appeler le professeur pour lui montrer.
 2. **À la structure, sur ordinateur.** Le second organisme n'accepte les dépôts que depuis un ordinateur. Les élèves font passer l'avis d'imposition du téléphone au PC (OneDrive ou une autre méthode, qu'elles décrivent par écrit), le renomment, puis le déposent sur `ordinateur.html`.
+3. **Signer et renvoyer, sur ordinateur.** Sur `signature.html`, l'employeur fictif (Kerlann Services à Domicile) envoie un engagement de confidentialité. Les élèves le téléchargent, l'ouvrent dans Edge, ajoutent nom, lieu et date (« Ajouter du texte ») et leur signature (« Dessiner »), enregistrent, puis renvoient le fichier sur le site.
+
+Le ménage des copies (fin de séance) se fait sans simulateur.
+
+## Les codes d'accès
+
+Chaque page demande d'abord un code à 3 chiffres : toute la classe démarre la partie en même temps. Le professeur l'affiche avec le bouton « Afficher le code » de la page projetée.
+
+| Partie | Page | Code |
+| --- | --- | --- |
+| 1 | `telephone.html` | **274** |
+| 2 | `ordinateur.html` | **519** |
+| 3 | `signature.html` | **836** |
+
+Le code est retenu tant que l'onglet reste ouvert : un rechargement ne le redemande pas. Pour changer un code : constante `CODE` en tête du script de `src/telephone.src.html`, `src/ordinateur.src.html` ou `src/signature.src.html`, et attribut `data-code` dans `index.html`.
 
 Principe pédagogique : on laisse l'erreur arriver. Les critères d'un justificatif accepté ne sont pas donnés au départ. C'est le site qui refuse, et la classe formule les critères à partir des refus.
 
@@ -64,6 +81,24 @@ Messages de refus, volontairement secs comme sur un vrai site, chacun avec un li
 
 Quand tout est conforme et la case de certification cochée, l'écran « Demande transmise » s'affiche, avec la date et l'heure. Sur téléphone, il demande d'appeler le professeur. Pour chaque fichier, un lien « Voir le document » ouvre le PDF de l'élève : le professeur vérifie ainsi la lisibilité directement sur son appareil.
 
+## Ce que vérifie le site de signature (partie 3)
+
+Le PDF d'origine est inclus dans la page : le bouton « Télécharger » le fournit, et la page reconnaît un fichier renvoyé tel quel. Edge enregistre ce qu'on ajoute à un PDF sous forme d'annotations : un tracé « Dessiner » (`/Ink`) et des zones « Ajouter du texte » (`/FreeText`). Le site les cherche.
+
+| Cas | Réponse du site |
+| --- | --- |
+| Pas un PDF | « Format non accepté. » |
+| Plus de 2 Mo | « Fichier trop volumineux… » |
+| Fichier identique à l'original (oubli d'enregistrer, ou fichier retéléchargé) | « Document non complété et non signé : aucune modification trouvée. » |
+| Plus d'une page (autre document) | « Document non conforme : ce n'est pas l'engagement de confidentialité. » |
+| Du texte ajouté mais pas de tracé | « Document non signé. » |
+| Un tracé, avec ou sans texte | Accepté |
+| Modifié mais sans annotation (imprimé en PDF, scanné) | Accepté, signalé au professeur |
+
+Pas de bandeau cookies ni de publicité sur cette page : c'est l'espace interne de l'employeur. Comme les deux autres sites, elle s'ouvre seulement sur ordinateur.
+
+L'écran « Document reçu » demande d'appeler le professeur. La ligne grise du bas dit ce que le site a trouvé : « Signature dessinée : oui · Texte ajouté : 3 zones », ou « Aucune annotation trouvée… : vérifier à l'œil ». Le lien « Voir le document » permet de vérifier la signature, le nom, le lieu et la date.
+
 **Limite assumée :** le simulateur contrôle la forme (format, poids, pages, nom), pas le contenu. Une photo floue mise en PDF, ou une carte d'identité sans verso sur une seule page, passent. C'est le professeur qui vérifie en ouvrant le document.
 
 Si le nombre de pages d'un PDF ne peut pas être lu, le fichier est accepté et l'écran de réussite indique « pages non vérifiées ».
@@ -88,18 +123,22 @@ depot-justificatifs/
 ├── index.html                    page professeur (écrite à la main)
 ├── telephone.html                PRODUIT par outils/build.py
 ├── ordinateur.html               PRODUIT par outils/build.py
+├── signature.html                PRODUIT par outils/build.py (inclut le PDF d'engagement)
+├── engagement_confidentialite_SPECIMEN.pdf   PDF à signer (partie 3)
 ├── pochette_LeGoff_SPECIMEN.pdf  PRODUIT par outils/pochette.py
 ├── qr-telephone.svg / .png       PRODUITS par outils/qr.py
 ├── src/
 │   ├── core.js                   lecture du fichier, détection du format, comptage des pages
-│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques
+│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques, code d'accès
 │   ├── telephone.src.html        page téléphone (règles, textes, charte), marqueur /*CORE*/
-│   └── ordinateur.src.html       page ordinateur, marqueur /*CORE*/
+│   ├── ordinateur.src.html       page ordinateur, marqueur /*CORE*/
+│   └── signature.src.html        page signature, marqueurs /*CORE*/ et /*ENGAGEMENT_B64*/
 └── outils/
-    ├── build.py                  insère core.js, pieges.js et pieges.css dans les deux pages
+    ├── build.py                  insère core.js, pieges.js et pieges.css dans les trois pages
     ├── pochette.py               génère la pochette (reportlab)
     ├── qr.py                     génère les QR codes
-    └── test_sims.py              tests automatiques (Playwright)
+    ├── test_sims.py              tests des parties 1 et 2 (Playwright, Python)
+    └── test_signature.js         tests de la partie 3 et des codes (Playwright, Node)
 ```
 
 Où changer quoi :
@@ -114,6 +153,7 @@ Après chaque modification, depuis le dossier `depot-justificatifs` :
 ```
 python3 outils/build.py
 python3 outils/test_sims.py
+node outils/test_signature.js
 ```
 
 Les tests fabriquent leurs propres fichiers d'essai à partir de la pochette : PDF de 1 à 3 pages, PDF compressé, JPG, faux HEIC, PDF trop lourd, noms piégés. Ils parcourent aussi les deux sites comme une élève (cookies, menus, fausse publicité, récapitulatif, case de certification, mauvais emplacement) : 40 vérifications. Dépendances : Python 3, `playwright`, `reportlab`, `qrcode`, ainsi que `qpdf`, `img2pdf`, ImageMagick et poppler-utils.
@@ -126,6 +166,7 @@ Les pages portent `noindex` pour ne pas apparaître dans les moteurs de recherch
 
 ## Points restant à vérifier
 
+- **Enregistrement dans Edge (partie 3).** Les tests utilisent des PDF annotés fabriqués, pas un vrai fichier enregistré par Edge. Avant la séance, sur un poste élève : signer le PDF dans Edge (« Dessiner » et « Ajouter du texte »), enregistrer, le déposer sur `signature.html` et regarder la ligne grise de l'écran final. Si elle dit « Aucune annotation trouvée » alors que le document est signé, récupérer le fichier pour corriger `annotations()` dans `src/core.js`.
 - **PDF de vrais téléphones.** Le comptage des pages a été testé sur des PDF générés (y compris compressés), mais pas encore sur des scans d'iPhone (appli Fichiers) ni d'Android (Google Drive, appareil photo en mode document). Si un scan réel affiche « pages non vérifiées », c'est à corriger dans `compterPages()` de `src/core.js`.
 - **Ctrl+P dans Edge** sur les postes élèves (« Enregistrer au format PDF »), utilisé dans la partie « pour aller plus loin ».
 - **Connexion OneDrive** sur les téléphones des élèves (double authentification).

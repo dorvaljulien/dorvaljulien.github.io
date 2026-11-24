@@ -31,3 +31,9 @@
               box-shadow: 0 6px 18px rgba(0,0,0,.18); }
   .pg-avert .pg-sans { font-size: 16px; color: #8a7a55; margin: -4px -4px 0 6px; }
   .pg-avert .pg-petit { display: block; margin-top: 4px; }
+  .pg-verrou { background: rgba(0,0,0,.72); align-items: center; }
+  .pg-code { text-align: center; max-width: 380px; border-radius: 12px; margin: 16px; }
+  .pg-code input { width: 150px; font-size: 34px; letter-spacing: 12px; text-align: center; padding: 6px 0 6px 12px;
+                   border: 2px solid #999; border-radius: 8px; margin: 6px 0 2px; font-family: inherit; }
+  .pg-code input:focus { outline: none; border-color: var(--accent); }
+  .pg-codeko { color: #b3261e; font-size: 13.5px; margin-top: 8px; }

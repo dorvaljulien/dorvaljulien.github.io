@@ -53,7 +53,12 @@ const Depot = (() => {
     const txt = latin1(b);
     let n = compterDans(txt);
     if (n > 0) return n;
-    // PDF à flux d'objets compressés : on décompresse les /ObjStm
+    n = compterDans(await objStm(b, txt));
+    return n > 0 ? n : null;
+  }
+
+  // Contenu décompressé des flux d'objets (/ObjStm) : certains logiciels y rangent tout
+  async function objStm(b, txt) {
     const re = /\/Type\s*\/ObjStm/g;
     let m, total = '';
     while ((m = re.exec(txt))) {
@@ -67,8 +72,16 @@ const Depot = (() => {
       const dec = await inflate(b.subarray(start, e));
       if (dec) total += dec + '\n';
     }
-    n = compterDans(total);
-    return n > 0 ? n : null;
+    return total;
+  }
+
+  // Annotations ajoutées par un lecteur PDF (Edge, Chrome, Firefox) :
+  // /Ink = tracé à main levée (la signature), /FreeText = zone de texte ajoutée.
+  async function annotations(b) {
+    const raw = latin1(b);
+    const txt = raw + '\n' + await objStm(b, raw);
+    const nb = re => (txt.match(re) || []).length;
+    return { ink: nb(/\/Subtype\s*\/Ink(?![A-Za-z])/g), texte: nb(/\/Subtype\s*\/FreeText(?![A-Za-z])/g) };
   }
 
   async function analyser(file) {
@@ -96,5 +109,5 @@ const Depot = (() => {
     return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} à ${p(d.getHours())}h${p(d.getMinutes())}`;
   }
 
-  return { analyser, mo, maintenant };
+  return { analyser, annotations, mo, maintenant };
 })();

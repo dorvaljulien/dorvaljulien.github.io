@@ -104,6 +104,12 @@
               box-shadow: 0 6px 18px rgba(0,0,0,.18); }
   .pg-avert .pg-sans { font-size: 16px; color: #8a7a55; margin: -4px -4px 0 6px; }
   .pg-avert .pg-petit { display: block; margin-top: 4px; }
+  .pg-verrou { background: rgba(0,0,0,.72); align-items: center; }
+  .pg-code { text-align: center; max-width: 380px; border-radius: 12px; margin: 16px; }
+  .pg-code input { width: 150px; font-size: 34px; letter-spacing: 12px; text-align: center; padding: 6px 0 6px 12px;
+                   border: 2px solid #999; border-radius: 8px; margin: 6px 0 2px; font-family: inherit; }
+  .pg-code input:focus { outline: none; border-color: var(--accent); }
+  .pg-codeko { color: #b3261e; font-size: 13.5px; margin-top: 8px; }
 
 </style>
 </head>
@@ -308,7 +314,12 @@ const Depot = (() => {
     const txt = latin1(b);
     let n = compterDans(txt);
     if (n > 0) return n;
-    // PDF à flux d'objets compressés : on décompresse les /ObjStm
+    n = compterDans(await objStm(b, txt));
+    return n > 0 ? n : null;
+  }
+
+  // Contenu décompressé des flux d'objets (/ObjStm) : certains logiciels y rangent tout
+  async function objStm(b, txt) {
     const re = /\/Type\s*\/ObjStm/g;
     let m, total = '';
     while ((m = re.exec(txt))) {
@@ -322,8 +333,16 @@ const Depot = (() => {
       const dec = await inflate(b.subarray(start, e));
       if (dec) total += dec + '\n';
     }
-    n = compterDans(total);
-    return n > 0 ? n : null;
+    return total;
+  }
+
+  // Annotations ajoutées par un lecteur PDF (Edge, Chrome, Firefox) :
+  // /Ink = tracé à main levée (la signature), /FreeText = zone de texte ajoutée.
+  async function annotations(b) {
+    const raw = latin1(b);
+    const txt = raw + '\n' + await objStm(b, raw);
+    const nb = re => (txt.match(re) || []).length;
+    return { ink: nb(/\/Subtype\s*\/Ink(?![A-Za-z])/g), texte: nb(/\/Subtype\s*\/FreeText(?![A-Za-z])/g) };
   }
 
   async function analyser(file) {
@@ -351,7 +370,7 @@ const Depot = (() => {
     return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} à ${p(d.getHours())}h${p(d.getMinutes())}`;
   }
 
-  return { analyser, mo, maintenant };
+  return { analyser, annotations, mo, maintenant };
 })();
 
 /* Pièges « de terrain » communs aux deux simulateurs : cookies, fausse publicité, aides « ? », navigation.
@@ -453,11 +472,38 @@ const Pieges = (() => {
     montrer();
   }
 
+  // Code à 3 chiffres donné par le professeur pour ouvrir une partie : toute la classe démarre ensemble.
+  // Le code est retenu pour l'onglet (sessionStorage) : un rechargement ne le redemande pas.
+  function code(attendu, partie, ensuite) {
+    const cle = 'code-' + attendu;
+    try { if (sessionStorage.getItem(cle) === '1') { ensuite(); return; } } catch (e) {}
+    const m = el(`<div class="pg-fond pg-verrou"><form class="pg-boite pg-code">
+      <div class="pg-petit">Exercice – ${partie}</div>
+      <h2>Code d'accès</h2>
+      <p>Saisissez le code à 3 chiffres donné par le professeur.</p>
+      <input id="pgCode" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" aria-label="Code à 3 chiffres">
+      <div class="pg-codeko" hidden>Code incorrect. Attendez que le professeur affiche le code.</div>
+      <button class="pg-tout" type="submit">Valider</button>
+    </form></div>`);
+    const champ = m.querySelector('input'), ko = m.querySelector('.pg-codeko');
+    m.querySelector('form').onsubmit = e => {
+      e.preventDefault();
+      if (champ.value.trim() !== attendu) { ko.hidden = false; champ.select(); return; }
+      try { sessionStorage.setItem(cle, '1'); } catch (e2) {}
+      m.remove();
+      ensuite();
+    };
+    champ.oninput = () => { ko.hidden = true; };
+    document.body.appendChild(m);
+    champ.focus();
+  }
+
   const recommencer = () => location.replace(location.pathname + location.search);
   const resume = () => `Cookies : ${bilan.cookies} · Publicité : ${bilan.pub}`;
-  return { cookies, pub, rubriques, recommencer, resume };
+  return { cookies, pub, rubriques, recommencer, resume, code };
 })();
 
+const CODE = '519';   // code de la partie 2, affiché sur la page professeur
 const MAX = 2 * 1024 * 1024;
 const ATTENDU = 'LEGOFF_avis-imposition.pdf';
 if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
@@ -559,7 +605,7 @@ Pieges.rubriques('accueil', v => {
 });
 if (!document.body.classList.contains('sur-mobile')) {
   Pieges.pub(document.getElementById('emplPub'), 'le Fonds Habitat Seniors');
-  Pieges.cookies('Le Fonds Habitat Seniors');
+  Pieges.code(CODE, 'partie 2', () => Pieges.cookies('Le Fonds Habitat Seniors'));
 }
 </script>
 </body>

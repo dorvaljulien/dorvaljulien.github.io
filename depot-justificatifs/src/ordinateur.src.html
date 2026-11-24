@@ -221,6 +221,7 @@
 
 <script>
 /*CORE*/
+const CODE = '519';   // code de la partie 2, affiché sur la page professeur
 const MAX = 2 * 1024 * 1024;
 const ATTENDU = 'LEGOFF_avis-imposition.pdf';
 if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
@@ -322,7 +323,7 @@ Pieges.rubriques('accueil', v => {
 });
 if (!document.body.classList.contains('sur-mobile')) {
   Pieges.pub(document.getElementById('emplPub'), 'le Fonds Habitat Seniors');
-  Pieges.cookies('Le Fonds Habitat Seniors');
+  Pieges.code(CODE, 'partie 2', () => Pieges.cookies('Le Fonds Habitat Seniors'));
 }
 </script>
 </body>

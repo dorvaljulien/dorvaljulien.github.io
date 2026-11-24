@@ -5,14 +5,14 @@ Notes pour une session de Claude qui reprend ce dossier. Le README décrit la s�
 ## Contexte
 
 - Enseignant : Julien, maths et informatique (TIM) en lycée agricole. Classe : 1ère Bac Pro SAPAT, deux groupes, le mardi, même durée de cours. Élèves très majoritairement des filles : la fiche élève et les consignes sont au féminin (« l'aidante »).
-- Séance « Un justificatif qui passe », dans la séquence démarches en ligne : numériser des papiers avec un téléphone, les déposer sur un site exigeant, passer un fichier du téléphone au PC, puis faire le ménage dans les copies.
-- Les documents de travail (doc de passation, fiche élève) sont dans le projet claude.ai « Cours informatique SAPAT ». Ils sont privés.
+- Séance « Déposer, transférer, signer » (ex-« Un justificatif qui passe »), dans la séquence démarches en ligne : numériser des papiers avec un téléphone et les déposer sur un site exigeant (partie 1), passer un fichier du téléphone au PC (partie 2), signer un PDF dans Edge et le renvoyer (partie 3), puis faire le ménage dans les copies.
+- Les documents de travail (doc de passation, fiche élève) sont dans le projet claude.ai « Cours informatique SAPAT » et dans le Drive de Julien (dossier « _Informatique - 1ère SAPAT › 5 - Documents dématérialisés », fiche élève à jour : « … fiche élève et cours v3.odt », qui mentionne les codes et les outils d’Edge). Ils sont privés.
 
 ## Règles à ne pas casser
 
 1. **Rien ne quitte l'appareil.** Pas de `fetch`, pas de formulaire envoyé, pas de bibliothèque chargée depuis un CDN, pas de statistiques. Les élèves déposent des scans de faux papiers d'identité : la page doit pouvoir dire honnêtement que rien n'est envoyé. Les données mobiles des élèves sont limitées : chaque page doit rester légère (aujourd'hui 29 Ko, environ 10 Ko une fois compressée par GitHub Pages).
 2. **Tout est fictif et le reste.** Organismes inventés (Armor Retraite, Fonds Habitat Seniors, Service des impôts de Kerlann, Eaux de la Presqu'île), commune fictive (Kerlann, 29999), personnage fictif (Mme Marie Le Goff). Aucun nom, logo ni mise en page d'un vrai organisme ou d'un vrai document officiel. Chaque page porte une mention « Site fictif – exercice pédagogique », et la pochette garde son filigrane SPÉCIMEN.
-3. **Fichiers produits.** `telephone.html` et `ordinateur.html` sont produits par `outils/build.py` à partir de `src/` (`core.js` et `pieges.js` à la place de `/*CORE*/`, `pieges.css` à la place de `/*PIEGES_CSS*/`). On modifie `src/`, puis on lance le build. Même chose pour la pochette (`outils/pochette.py`) et les QR codes (`outils/qr.py`).
+3. **Fichiers produits.** `telephone.html`, `ordinateur.html` et `signature.html` sont produits par `outils/build.py` à partir de `src/` (`core.js` et `pieges.js` à la place de `/*CORE*/`, `pieges.css` à la place de `/*PIEGES_CSS*/`). On modifie `src/`, puis on lance le build. Même chose pour la pochette (`outils/pochette.py`) et les QR codes (`outils/qr.py`).
 4. **Pages autonomes.** Chaque page produite tient en un seul fichier HTML (CSS et JS en ligne), pour pouvoir être copiée telle quelle sur un poste sans réseau.
 5. **Racine du dépôt.** `index.html`, `confidentialite.html` et `conditions.html` à la racine de `dorvaljulien.github.io` servent à la validation Google de l'outil rclone de Julien. Ne jamais les modifier.
 
@@ -27,6 +27,8 @@ Notes pour une session de Claude qui reprend ce dossier. Le README décrit la s�
 - Pas de code de récépissé et aucune collecte : l'élève montre l'écran de réussite au professeur. Sur téléphone, cet écran dit « Appelez le professeur ».
 - Pièges « de terrain » (novembre 2026, choisis par Julien) : bandeau cookies, dépôt enfoui dans l'espace personnel, fausse publicité de convertisseur, jargon administratif avec aide « ? », récapitulatif et case de certification avant l'envoi, sur ordinateur erreur affichée en haut du formulaire (pas trop cachée, à la demande de Julien) et emplacement « Autre document » facultatif. Écartés : connexion préalable, session expirée, compte à rebours.
 - Navigation par ancres (`#accueil`, `#depot`…) : le bouton Retour du navigateur fonctionne. `telephone.html#depot` mène directement au dépôt (pratique pour le professeur, à ne pas donner aux élèves).
+- Codes d'accès à 3 chiffres (274, 519, 836), demandés avant tout le reste, pour synchroniser la classe (demande de Julien, 24/11/2026). Révélés partie par partie sur la page projetée ; ne pas les lister dans le panneau professeur, qui peut être projeté.
+- Partie 3 (24/11/2026) : page à part (`signature.html`), PDF sans champs à remplir (on utilise « Ajouter du texte » d'Edge), aucun piège en plus (ni cookies ni publicité). Le site refuse un fichier identique à l'original, un autre document, du texte sans tracé ; il accepte un tracé, et laisse passer avec un avertissement au professeur un PDF modifié sans annotation (imprimé en PDF, scanné).
 - Les conditions du site ordinateur précisent « nom de famille de la personne concernée par la demande » : une élève qui met son propre nom est refusée.
 
 ## Comptage des pages (`src/core.js`)
@@ -43,7 +45,8 @@ Depuis le dossier `depot-justificatifs` :
 
 ```
 python3 outils/build.py        # après toute modification de src/
-python3 outils/test_sims.py    # 40 vérifications, doit finir sur « 0 échec(s) » ; CHROME=... pour le navigateur
+python3 outils/test_sims.py    # parties 1 et 2, doit finir sur « 0 échec(s) » ; CHROME=... pour le navigateur
+node outils/test_signature.js  # partie 3 et codes (25 vérifications) ; NODE_PATH=$(npm root -g) si playwright est global
 python3 outils/pochette.py     # si la pochette change
 python3 outils/qr.py           # si l'adresse du site change
 ```

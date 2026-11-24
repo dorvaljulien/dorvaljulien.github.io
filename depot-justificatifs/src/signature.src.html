@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kerlann Services à Domicile – Mon espace</title>
+<style>
+  :root { --vert: #2d6a5a; --vert-clair: #3f8a75; --fond: #f2f5f3; --encre: #1f2a27; --gris: #5f6b67;
+          --ligne: #d3ddd9; --ok: #1e7a46; --ko: #b3261e;
+          --accent: var(--vert); --accent-fonce: var(--vert); }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: var(--fond); color: var(--encre); font-size: 15px; }
+  .haut { background: var(--vert); color: #fff; }
+  .haut .in { max-width: 900px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; gap: 14px; }
+  .logo { width: 44px; height: 44px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+  .marque { font-size: 20px; font-weight: 700; }
+  .sous { font-size: 12px; opacity: .85; }
+  .compte { margin-left: auto; font-size: 13px; text-align: right; opacity: .9; }
+  main { max-width: 900px; margin: 0 auto; padding: 22px 24px 30px; }
+  .carte { background: #fff; border: 1px solid var(--ligne); border-radius: 6px; padding: 20px 24px; margin-bottom: 18px; }
+  h1 { font-size: 21px; margin: 0 0 14px; color: var(--vert); }
+  h2 { font-size: 17px; margin: 0 0 6px; color: var(--vert); }
+  .badge { background: var(--ko); color: #fff; border-radius: 10px; font-size: 12px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+  .entete { font-size: 13px; color: var(--gris); margin-bottom: 10px; }
+  .pj { display: flex; align-items: center; gap: 12px; border: 1px solid var(--ligne); border-radius: 6px; padding: 10px 14px; background: #f8faf9; margin-top: 12px; }
+  .pj .nom { font-weight: 600; word-break: break-all; }
+  .pj .poids { font-size: 13px; color: var(--gris); }
+  .pj a { margin-left: auto; }
+  .principal { display: inline-block; background: var(--vert); color: #fff; border: 0; padding: 10px 18px; font-size: 15px; font-weight: 600;
+               cursor: pointer; border-radius: 4px; text-decoration: none; }
+  .principal:hover { background: var(--vert-clair); }
+  .regles { border: 1px solid var(--ligne); background: #f8faf9; padding: 10px 14px; font-size: 14px; margin: 12px 0 16px; }
+  .regles summary { cursor: pointer; font-weight: 600; color: var(--vert); }
+  .regles ul { margin: 8px 0 2px; padding-left: 20px; line-height: 1.6; }
+  .btn { display: inline-block; padding: 8px 14px; border: 1px solid var(--vert); color: var(--vert); background: #fff; font-size: 14px; cursor: pointer; border-radius: 4px; }
+  .btn input { display: none; }
+  .msg { margin-top: 10px; font-size: 14px; display: none; padding: 8px 10px; border-left: 3px solid; }
+  .msg.ko { display: block; color: var(--ko); background: #fdf0ef; border-color: var(--ko); }
+  .msg.ok { display: block; color: var(--ok); background: #eaf5ee; border-color: var(--ok); }
+  .msg .fic { color: var(--encre); font-family: Consolas, monospace; font-size: 13px; word-break: break-all; }
+  .msg a { color: inherit; font-weight: 600; }
+  .actions { margin-top: 18px; }
+  .erreur { color: var(--ko); font-size: 14px; margin-top: 10px; }
+  .succes .titre { display: flex; align-items: center; gap: 12px; }
+  .succes h1 { color: var(--ok); margin: 0; }
+  .appel { background: #fff4cc; border: 2px solid #e0a800; border-radius: 8px; padding: 10px 14px; margin: 14px 0; }
+  .recap { margin: 14px 0; border: 1px solid var(--ligne); padding: 12px 16px; background: #f8faf9; font-size: 14px; line-height: 1.7; }
+  .recap a { color: var(--vert); font-weight: 600; }
+  .lien-bas { background: none; border: 0; color: var(--vert); text-decoration: underline; cursor: pointer; font-size: 14px; padding: 0; }
+  footer { text-align: center; font-size: 12px; color: var(--gris); padding: 6px 20px 30px; }
+  .mobile { display: none; max-width: 520px; margin: 40px auto; background: #fff; border: 1px solid var(--ligne); padding: 26px; text-align: center; }
+  .mobile h1 { font-size: 19px; }
+  body.sur-mobile .vue { display: none !important; }
+  body.sur-mobile .mobile { display: block; }
+/*PIEGES_CSS*/
+</style>
+</head>
+<body>
+<div class="haut"><div class="in">
+  <div class="logo"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 24s-9-5.6-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.4-9 12-9 12z" fill="#2d6a5a"/></svg></div>
+  <div><div class="marque">Kerlann Services à Domicile</div><div class="sous">Association d'aide à domicile · Espace salariées</div></div>
+  <div class="compte">Mon espace<br>Intervenante à domicile</div>
+</div></div>
+
+<div class="mobile">
+  <h1>Cet espace n'est disponible que sur ordinateur.</h1>
+  <p>Merci de vous connecter depuis un ordinateur pour signer et renvoyer vos documents.</p>
+</div>
+
+<main class="vue" id="vue-depot">
+  <div class="carte">
+    <h1>Documents à signer <span class="badge">1</span></h1>
+    <div class="entete">De : Service des ressources humaines · Reçu aujourd'hui</div>
+    <p>Bonjour,</p>
+    <p>Avant votre première intervention, merci de compléter et de signer l'engagement de confidentialité ci-joint :
+    votre nom, le lieu et la date, puis votre signature dans le cadre prévu. Renvoyez-le ensuite depuis cet espace, rubrique
+    « Renvoyer le document signé ».</p>
+    <p>Le service des ressources humaines</p>
+    <div class="pj">
+      <svg width="28" height="34" viewBox="0 0 28 34" aria-hidden="true"><path d="M2 1h17l7 7v25H2z" fill="#fff" stroke="#b3261e" stroke-width="2"/><text x="14" y="26" font-size="8" font-weight="700" text-anchor="middle" fill="#b3261e" font-family="Arial">PDF</text></svg>
+      <div><div class="nom">engagement_confidentialite_SPECIMEN.pdf</div><div class="poids" id="poids"></div></div>
+      <a class="principal" id="telecharger" download="engagement_confidentialite_SPECIMEN.pdf">Télécharger</a>
+    </div>
+  </div>
+
+  <div class="carte" id="formulaire">
+    <h2>Renvoyer le document signé</h2>
+    <details class="regles" id="regles">
+      <summary>Conditions d'envoi</summary>
+      <ul>
+        <li>Format accepté : <strong>PDF uniquement</strong>. Taille maximale : <strong>2 Mo</strong>.</li>
+        <li>Le document doit être <strong>complété</strong> (nom, lieu et date) et <strong>signé</strong> dans le cadre « Signature ».</li>
+        <li>Pensez à <strong>enregistrer</strong> le document après l'avoir complété, puis à le rouvrir pour vérifier.</li>
+      </ul>
+    </details>
+    <label class="btn"><input type="file" id="fichier">Parcourir…</label>
+    <div class="msg" id="msg"></div>
+    <div class="actions"><button class="principal" id="envoyer">Envoyer le document</button></div>
+    <div class="erreur" id="erreur" hidden>Ajoutez le document signé avant de l'envoyer.</div>
+  </div>
+
+  <div class="carte succes" id="succes" hidden>
+    <div class="titre">
+      <svg width="42" height="42" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1e7a46"/><path d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h1>Document reçu</h1>
+    </div>
+    <p>Votre engagement de confidentialité a bien été transmis au service des ressources humaines le <span id="date"></span>.</p>
+    <div class="appel"><strong>Appelez le professeur</strong> et montrez-lui cet écran. Ne fermez pas cette page.</div>
+    <div class="recap" id="recap"></div>
+    <div class="bilan" id="bilan"></div>
+    <button class="lien-bas" id="recommencer">Recommencer l'exercice</button>
+  </div>
+</main>
+
+<footer>Site fictif – exercice pédagogique. Aucun fichier n'est envoyé : la vérification se fait sur cet ordinateur.</footer>
+
+<script>
+/*CORE*/
+const CODE = '836';   // code de la partie 3, affiché sur la page professeur
+const MAX = 2 * 1024 * 1024;
+// Le PDF d'origine est inclus dans la page (page autonome) : il sert au téléchargement
+// et à reconnaître un fichier renvoyé sans aucune modification.
+const ORIGINAL = Uint8Array.from(atob('/*ENGAGEMENT_B64*/'), c => c.charCodeAt(0));
+
+if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) && !/[?&]mobile=ok/.test(location.search)) {
+  document.body.classList.add('sur-mobile');
+}
+const lien = document.getElementById('telecharger');
+lien.href = URL.createObjectURL(new Blob([ORIGINAL], { type: 'application/pdf' }));
+document.getElementById('poids').textContent = 'PDF – ' + Depot.mo(ORIGINAL.length);
+
+function identique(b) {
+  if (b.length !== ORIGINAL.length) return false;
+  for (let i = 0; i < b.length; i++) if (b[i] !== ORIGINAL[i]) return false;
+  return true;
+}
+function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+let valide = null;
+const msg = document.getElementById('msg'), input = document.getElementById('fichier');
+
+async function controle(f) {
+  const info = await Depot.analyser(f);
+  if (info.format !== 'pdf') return { err: "Format non accepté.", info };
+  if (info.taille > MAX) return { err: `Fichier trop volumineux (${Depot.mo(info.taille)}). Taille maximale : 2 Mo.`, info };
+  if (info.chiffre) return { err: "Fichier protégé : non accepté.", info };
+  if (info.tronque) return { err: "Fichier illisible.", info };
+  const b = new Uint8Array(await f.arrayBuffer());
+  if (identique(b)) return { err: "Document non complété et non signé : aucune modification trouvée.", info };
+  if (info.pages !== null && info.pages !== 1) return { err: "Document non conforme : ce n'est pas l'engagement de confidentialité.", info };
+  const a = await Depot.annotations(b);
+  if (a.texte && !a.ink) return { err: "Document non signé.", info };
+  return { info, a };
+}
+
+input.addEventListener('change', async () => {
+  const f = input.files[0];
+  if (!f) return;
+  msg.className = 'msg ok'; msg.textContent = 'Vérification…';
+  const r = await controle(f);
+  const fic = `<div class="fic">${escapeHtml(r.info.nom)} (${Depot.mo(r.info.taille)})</div>`;
+  if (r.err) {
+    valide = null;
+    msg.className = 'msg ko';
+    msg.innerHTML = `✖ ${r.err} Consultez les <a href="#" class="voirRegles">conditions d'envoi</a>.${fic}`;
+    msg.querySelector('.voirRegles').onclick = e => { e.preventDefault(); document.getElementById('regles').open = true; };
+  } else {
+    valide = { info: r.info, a: r.a, file: f };
+    msg.className = 'msg ok';
+    msg.innerHTML = `✔ Fichier ajouté.${fic}`;
+  }
+  document.getElementById('erreur').hidden = true;
+  input.value = '';
+});
+
+// Ce que le site a trouvé dans le PDF, pour le professeur (ligne grise de l'écran final)
+function constat(a) {
+  if (!a.ink && !a.texte) return 'Aucune annotation trouvée (document imprimé en PDF ou scanné ?) : vérifier à l\'œil';
+  return `Signature dessinée : ${a.ink ? 'oui' : 'non'} · Texte ajouté : ${a.texte ? a.texte + ' zone' + (a.texte > 1 ? 's' : '') : 'non trouvé'}`;
+}
+
+document.getElementById('envoyer').onclick = () => {
+  if (!valide) { document.getElementById('erreur').hidden = false; return; }
+  document.getElementById('recap').innerHTML = `<strong>Engagement de confidentialité</strong><br>${escapeHtml(valide.info.nom)} – ${Depot.mo(valide.info.taille)}<br>` +
+    `<a href="${URL.createObjectURL(valide.file)}" target="_blank" rel="noopener">Voir le document</a>`;
+  document.getElementById('bilan').textContent = constat(valide.a);
+  document.getElementById('date').textContent = Depot.maintenant();
+  document.getElementById('formulaire').hidden = true;
+  document.getElementById('succes').hidden = false;
+  document.getElementById('succes').scrollIntoView();
+};
+document.getElementById('recommencer').onclick = Pieges.recommencer;
+
+if (!document.body.classList.contains('sur-mobile')) Pieges.code(CODE, 'partie 3', () => {});
+</script>
+</body>
+</html>

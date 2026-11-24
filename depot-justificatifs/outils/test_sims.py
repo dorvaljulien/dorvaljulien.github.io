@@ -8,6 +8,7 @@ Dépendances : playwright (python), qpdf, img2pdf, ImageMagick (convert), pdftop
 Les fichiers d'essai sont fabriqués dans un dossier temporaire à partir de la pochette :
 PDF 1, 2 et 3 pages, PDF à flux d'objets compressés (comme certains scanners), JPG, faux HEIC,
 PDF trop lourd, et l'avis d'imposition sous plusieurs noms piégés.
+La partie 3 (signature.html) et les codes d'accès sont testés par outils/test_signature.js.
 """
 import asyncio, os, pathlib, shutil, subprocess, sys, tempfile
 from playwright.async_api import async_playwright
@@ -99,6 +100,8 @@ async def main():
                                       user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile')
             pg = await tel.new_page()
             await pg.goto((RACINE / 'telephone.html').as_uri())
+            await pg.fill('#pgCode', '274')
+            await pg.click('.pg-code button')
             echecs += note(await pg.is_visible('.pg-cookies'), 'téléphone : bandeau cookies à l\'arrivée')
             await pg.click('.pg-cookies .pg-sans')
             echecs += note(await pg.query_selector('.pg-avert') is None, 'téléphone : pas d\'avertissement si cookies refusés')
@@ -138,6 +141,8 @@ async def main():
             pc_ctx = await b.new_context(viewport={'width': 1280, 'height': 800})
             pc = await pc_ctx.new_page()
             await pc.goto((RACINE / 'ordinateur.html').as_uri())
+            await pc.fill('#pgCode', '519')
+            await pc.click('.pg-code button')
             await pc.click('.pg-cookies .pg-tout')
             echecs += note(await pc.is_visible('#vue-accueil'), 'ordinateur : arrivée sur l\'accueil')
             echecs += note('Vous avez tout accepté' in (await pc.text_content('.pg-avert') or ''), 'ordinateur : avertissement après « Tout accepter »')
