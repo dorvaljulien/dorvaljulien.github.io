@@ -6,7 +6,7 @@ Ce dossier contient les ressources numériques d'une séance de démarches en li
 
 | Ressource | Adresse | Rôle |
 | --- | --- | --- |
-| Page professeur | `index.html` | QR code et adresses à projeter, bouton « Afficher le code » pour chaque partie ; les liens professeur sont cachés derrière la petite flèche grise en bas à droite |
+| Page professeur | `index.html` | QR code et adresses à projeter ; les liens professeur sont cachés derrière la petite flèche grise en bas à droite |
 | Simulateur téléphone | `telephone.html` | Site fictif « Armor Retraite » : 3 pièces à déposer depuis le téléphone |
 | Simulateur ordinateur | `ordinateur.html` | Site fictif « Fonds Habitat Seniors » : 1 pièce à déposer depuis le PC, nom de fichier imposé |
 | Simulateur signature | `signature.html` | Espace salariées fictif « Kerlann Services à Domicile » : télécharger l'engagement, le signer dans Edge, le renvoyer |
@@ -28,17 +28,13 @@ Le ménage des copies (fin de séance) se fait sans simulateur.
 
 ## Les codes d'accès
 
-Chaque page demande d'abord un code à 3 chiffres : toute la classe démarre la partie en même temps. Le professeur l'affiche avec le bouton « Afficher le code » de la page projetée.
+La partie 1 est libre. Les parties 2 et 3 demandent un code à 3 chiffres que seul le professeur connaît : il le donne à un binôme (ou le tape lui-même sur le poste) quand il a validé sa partie précédente. Personne ne prend donc d'avance sans être passé par le professeur.
 
-| Partie | Page | Code |
-| --- | --- | --- |
-| 1 | `telephone.html` | **274** |
-| 2 | `ordinateur.html` | **519** |
-| 3 | `signature.html` | **836** |
+**Les codes ne sont écrits nulle part dans ce dépôt**, qui est public (et GitHub Pages publie aussi ce README). Ils sont dans le Drive privé du professeur : fichier « Codes d'accès – parties 2 et 3 » du dossier de la séance. Les pages ne contiennent qu'une empreinte du code : un « Afficher le code source » ne le montre pas.
 
-Le code est retenu tant que l'onglet reste ouvert : un rechargement ne le redemande pas. Pour changer un code : constante `CODE` en tête du script de `src/telephone.src.html`, `src/ordinateur.src.html` ou `src/signature.src.html`, et attribut `data-code` dans `index.html`.
+Le code est retenu tant que l'onglet reste ouvert : un rechargement ne le redemande pas.
 
-Principe pédagogique : on laisse l'erreur arriver. Les critères d'un justificatif accepté ne sont pas donnés au départ. C'est le site qui refuse, et la classe formule les critères à partir des refus.
+Pour changer un code : calculer la nouvelle empreinte avec la fonction `empreinte()` de `src/pieges.js` (dans la console du navigateur, par exemple), remplacer la constante `CODE` en tête du script de `src/ordinateur.src.html` ou `src/signature.src.html`, reconstruire, et mettre à jour le fichier du Drive.
 
 ## Les pièges « de terrain »
 
@@ -129,7 +125,7 @@ depot-justificatifs/
 ├── qr-telephone.svg / .png       PRODUITS par outils/qr.py
 ├── src/
 │   ├── core.js                   lecture du fichier, détection du format, comptage des pages
-│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques, code d'accès
+│   ├── pieges.js / pieges.css    pièges communs : cookies, fausse pub, aides « ? », rubriques, code d'accès (parties 2 et 3)
 │   ├── telephone.src.html        page téléphone (règles, textes, charte), marqueur /*CORE*/
 │   ├── ordinateur.src.html       page ordinateur, marqueur /*CORE*/
 │   └── signature.src.html        page signature, marqueurs /*CORE*/ et /*ENGAGEMENT_B64*/

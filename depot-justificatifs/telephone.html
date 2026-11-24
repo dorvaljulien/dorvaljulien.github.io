@@ -459,23 +459,25 @@ const Pieges = (() => {
     montrer();
   }
 
-  // Code à 3 chiffres donné par le professeur pour ouvrir une partie : toute la classe démarre ensemble.
+  // Code à 3 chiffres que seul le professeur connaît : il le donne au binôme quand il a validé
+  // la partie précédente. La page ne contient qu'une empreinte du code (pas le code en clair).
   // Le code est retenu pour l'onglet (sessionStorage) : un rechargement ne le redemande pas.
+  const empreinte = s => { let x = 0x811c9dc5; for (const c of 'kerlann-' + s) x = Math.imul(x ^ c.charCodeAt(0), 0x01000193) >>> 0; return x.toString(16); };
   function code(attendu, partie, ensuite) {
     const cle = 'code-' + attendu;
     try { if (sessionStorage.getItem(cle) === '1') { ensuite(); return; } } catch (e) {}
     const m = el(`<div class="pg-fond pg-verrou"><form class="pg-boite pg-code">
       <div class="pg-petit">Exercice – ${partie}</div>
       <h2>Code d'accès</h2>
-      <p>Saisissez le code à 3 chiffres donné par le professeur.</p>
+      <p>Faites valider la partie précédente par le professeur : il vous donnera le code à 3 chiffres.</p>
       <input id="pgCode" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" aria-label="Code à 3 chiffres">
-      <div class="pg-codeko" hidden>Code incorrect. Attendez que le professeur affiche le code.</div>
+      <div class="pg-codeko" hidden>Code incorrect.</div>
       <button class="pg-tout" type="submit">Valider</button>
     </form></div>`);
     const champ = m.querySelector('input'), ko = m.querySelector('.pg-codeko');
     m.querySelector('form').onsubmit = e => {
       e.preventDefault();
-      if (champ.value.trim() !== attendu) { ko.hidden = false; champ.select(); return; }
+      if (empreinte(champ.value.trim()) !== attendu) { ko.hidden = false; champ.select(); return; }
       try { sessionStorage.setItem(cle, '1'); } catch (e2) {}
       m.remove();
       ensuite();
@@ -490,7 +492,6 @@ const Pieges = (() => {
   return { cookies, pub, rubriques, recommencer, resume, code };
 })();
 
-const CODE = '274';   // code de la partie 1, affiché sur la page professeur
 const MAX = 2 * 1024 * 1024;
 const PIECES = [
   { id: 'identite', titre: "Pièce d'identité en cours de validité", detail: "Recto-verso.",
@@ -610,7 +611,7 @@ Pieges.rubriques('accueil', v => {
     `<div><strong>${p.titre}</strong><br>${escapeHtml(valides[p.id].info.nom)}</div>`).join('');
 });
 Pieges.pub(document.getElementById('emplPub'), 'Armor Retraite');
-Pieges.code(CODE, 'partie 1', () => Pieges.cookies('Armor Retraite'));
+Pieges.cookies('Armor Retraite');
 </script>
 </body>
 </html>

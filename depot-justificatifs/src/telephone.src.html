@@ -208,7 +208,6 @@
 
 <script>
 /*CORE*/
-const CODE = '274';   // code de la partie 1, affiché sur la page professeur
 const MAX = 2 * 1024 * 1024;
 const PIECES = [
   { id: 'identite', titre: "Pièce d'identité en cours de validité", detail: "Recto-verso.",
@@ -328,7 +327,7 @@ Pieges.rubriques('accueil', v => {
     `<div><strong>${p.titre}</strong><br>${escapeHtml(valides[p.id].info.nom)}</div>`).join('');
 });
 Pieges.pub(document.getElementById('emplPub'), 'Armor Retraite');
-Pieges.code(CODE, 'partie 1', () => Pieges.cookies('Armor Retraite'));
+Pieges.cookies('Armor Retraite');
 </script>
 </body>
 </html>

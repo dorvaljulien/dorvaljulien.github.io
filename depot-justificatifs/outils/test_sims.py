@@ -18,6 +18,18 @@ POCHETTE = RACINE / 'pochette_LeGoff_SPECIMEN.pdf'
 CHROME = os.environ.get('CHROME', '/usr/bin/google-chrome')
 
 
+def code_de(nom):
+    """Retrouve le code d'accès à partir de l'empreinte de la page (les codes ne sont pas dans le dépôt)."""
+    import re
+    h = re.search(r"const CODE = '([0-9a-f]+)'", (RACINE / nom).read_text(encoding='utf-8')).group(1)
+    def empreinte(s):
+        x = 0x811c9dc5
+        for c in ('kerlann-' + s).encode():
+            x = ((x ^ c) * 0x01000193) & 0xffffffff
+        return format(x, 'x')
+    return next(c for c in (f'{i:03d}' for i in range(1000)) if empreinte(c) == h)
+
+
 def sh(*args):
     subprocess.run(args, check=True, capture_output=True)
 
@@ -100,8 +112,6 @@ async def main():
                                       user_agent='Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile')
             pg = await tel.new_page()
             await pg.goto((RACINE / 'telephone.html').as_uri())
-            await pg.fill('#pgCode', '274')
-            await pg.click('.pg-code button')
             echecs += note(await pg.is_visible('.pg-cookies'), 'téléphone : bandeau cookies à l\'arrivée')
             await pg.click('.pg-cookies .pg-sans')
             echecs += note(await pg.query_selector('.pg-avert') is None, 'téléphone : pas d\'avertissement si cookies refusés')
@@ -141,7 +151,7 @@ async def main():
             pc_ctx = await b.new_context(viewport={'width': 1280, 'height': 800})
             pc = await pc_ctx.new_page()
             await pc.goto((RACINE / 'ordinateur.html').as_uri())
-            await pc.fill('#pgCode', '519')
+            await pc.fill('#pgCode', code_de('ordinateur.html'))
             await pc.click('.pg-code button')
             await pc.click('.pg-cookies .pg-tout')
             echecs += note(await pc.is_visible('#vue-accueil'), 'ordinateur : arrivée sur l\'accueil')

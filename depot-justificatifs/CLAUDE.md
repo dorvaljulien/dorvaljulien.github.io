@@ -6,7 +6,7 @@ Notes pour une session de Claude qui reprend ce dossier. Le README décrit la s�
 
 - Enseignant : Julien, maths et informatique (TIM) en lycée agricole. Classe : 1ère Bac Pro SAPAT, deux groupes, le mardi, même durée de cours. Élèves très majoritairement des filles : la fiche élève et les consignes sont au féminin (« l'aidante »).
 - Séance « Déposer, transférer, signer » (ex-« Un justificatif qui passe »), dans la séquence démarches en ligne : numériser des papiers avec un téléphone et les déposer sur un site exigeant (partie 1), passer un fichier du téléphone au PC (partie 2), signer un PDF dans Edge et le renvoyer (partie 3), puis faire le ménage dans les copies.
-- Les documents de travail (doc de passation, fiche élève) sont dans le projet claude.ai « Cours informatique SAPAT » et dans le Drive de Julien (dossier « _Informatique - 1ère SAPAT › 5 - Documents dématérialisés », fiche élève à jour : « … fiche élève et cours v3.odt », qui mentionne les codes et les outils d’Edge). Ils sont privés.
+- Les documents de travail (doc de passation, fiche élève) sont dans le projet claude.ai « Cours informatique SAPAT » et dans le Drive de Julien (dossier « _Informatique - 1ère SAPAT › 5 - Documents dématérialisés », fiche élève à jour : « … fiche élève et cours v3.odt », qui mentionne les codes des parties 2 et 3 et les outils d’Edge). Ils sont privés.
 
 ## Règles à ne pas casser
 
@@ -27,7 +27,7 @@ Notes pour une session de Claude qui reprend ce dossier. Le README décrit la s�
 - Pas de code de récépissé et aucune collecte : l'élève montre l'écran de réussite au professeur. Sur téléphone, cet écran dit « Appelez le professeur ».
 - Pièges « de terrain » (novembre 2026, choisis par Julien) : bandeau cookies, dépôt enfoui dans l'espace personnel, fausse publicité de convertisseur, jargon administratif avec aide « ? », récapitulatif et case de certification avant l'envoi, sur ordinateur erreur affichée en haut du formulaire (pas trop cachée, à la demande de Julien) et emplacement « Autre document » facultatif. Écartés : connexion préalable, session expirée, compte à rebours.
 - Navigation par ancres (`#accueil`, `#depot`…) : le bouton Retour du navigateur fonctionne. `telephone.html#depot` mène directement au dépôt (pratique pour le professeur, à ne pas donner aux élèves).
-- Codes d'accès à 3 chiffres (274, 519, 836), demandés avant tout le reste, pour synchroniser la classe (demande de Julien, 24/11/2026). Révélés partie par partie sur la page projetée ; ne pas les lister dans le panneau professeur, qui peut être projeté.
+- Codes d'accès (24/11/2026) : partie 1 libre ; parties 2 et 3 bloquées par un code que seul Julien connaît (codes dans son Drive, fichier « Codes d'accès – parties 2 et 3 » ; jamais dans le dépôt, qui est public) et donne à chaque binôme après avoir validé sa partie précédente. Les codes ne doivent apparaître nulle part pour les élèves : ni sur la page projetée, ni en clair dans le code des pages (on n'y met qu'une empreinte, voir `empreinte()` dans `src/pieges.js`). Une première version affichait les codes sur la page projetée : c'était un malentendu.
 - Partie 3 (24/11/2026) : page à part (`signature.html`), PDF sans champs à remplir (on utilise « Ajouter du texte » d'Edge), aucun piège en plus (ni cookies ni publicité). Le site refuse un fichier identique à l'original, un autre document, du texte sans tracé ; il accepte un tracé, et laisse passer avec un avertissement au professeur un PDF modifié sans annotation (imprimé en PDF, scanné).
 - Les conditions du site ordinateur précisent « nom de famille de la personne concernée par la demande » : une élève qui met son propre nom est refusée.
 
@@ -46,7 +46,7 @@ Depuis le dossier `depot-justificatifs` :
 ```
 python3 outils/build.py        # après toute modification de src/
 python3 outils/test_sims.py    # parties 1 et 2, doit finir sur « 0 échec(s) » ; CHROME=... pour le navigateur
-node outils/test_signature.js  # partie 3 et codes (25 vérifications) ; NODE_PATH=$(npm root -g) si playwright est global
+node outils/test_signature.js  # partie 3 et codes (23 vérifications) ; NODE_PATH=$(npm root -g) si playwright est global
 python3 outils/pochette.py     # si la pochette change
 python3 outils/qr.py           # si l'adresse du site change
 ```

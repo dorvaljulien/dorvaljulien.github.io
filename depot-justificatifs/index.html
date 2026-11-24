@@ -15,9 +15,6 @@
   .bloc h2 { margin: 0 0 8px; font-size: 19px; }
   .qr { text-align: center; }
   .qr img { width: 100%; max-width: 260px; }
-  .code { margin-top: 14px; }
-  .code button { padding: 7px 12px; border: 1px solid #bbb; background: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; color: #444; }
-  .code .valeur { font-size: 46px; font-weight: 700; letter-spacing: 8px; color: #1f3a5f; font-family: Consolas, monospace; }
   .url { font-family: Consolas, monospace; font-size: 14px; word-break: break-all; color: #444; }
   a.bouton { display: inline-block; margin-top: 10px; padding: 9px 14px; background: #1f3a5f; color: #fff; text-decoration: none; border-radius: 6px; }
   ul { padding-left: 20px; line-height: 1.6; }
@@ -45,21 +42,18 @@
       <p>Scannez ce code pour ouvrir le site d'Armor Retraite.</p>
       <img src="qr-telephone.svg" alt="QR code vers le simulateur téléphone">
       <div class="url">dorvaljulien.github.io/depot-justificatifs/telephone.html</div>
-      <div class="code" data-code="274"><button>Afficher le code</button></div>
     </div>
     <div class="bloc">
       <h2>Partie 2 – Sur l'ordinateur</h2>
       <p>Ouvrez le site du Fonds Habitat Seniors dans Edge :</p>
       <div class="url">dorvaljulien.github.io/depot-justificatifs/ordinateur.html</div>
       <a class="bouton" href="ordinateur.html">Ouvrir le site</a>
-      <div class="code" data-code="519"><button>Afficher le code</button></div>
     </div>
     <div class="bloc">
       <h2>Partie 3 – Sur l'ordinateur</h2>
       <p>Ouvrez l'espace salariées de Kerlann Services à Domicile dans Edge :</p>
       <div class="url">dorvaljulien.github.io/depot-justificatifs/signature.html</div>
       <a class="bouton" href="signature.html">Ouvrir le site</a>
-      <div class="code" data-code="836"><button>Afficher le code</button></div>
     </div>
   </div>
 
@@ -78,11 +72,5 @@
     <li><a href="qr-telephone.png">QR code en image</a> (pour un diaporama)</li>
   </ul></div>
 </details>
-<script>
-  // « Afficher le code » : le professeur révèle le code de chaque partie au moment de la lancer
-  document.querySelectorAll('.code').forEach(c => {
-    c.querySelector('button').onclick = () => { c.innerHTML = '<div>Code</div><div class="valeur">' + c.dataset.code + '</div>'; };
-  });
-</script>
 </body>
 </html>
